@@ -2,12 +2,12 @@ import streamlit as st
 
 def page_header():
     st.title("Ask CARA 🧠")
-    st.subheader("Content Assistant for Readable & Accessible content")
+    st.subheader("Your personal Content Authoring & Review Assistant (CARA)")
     st.markdown("""
     Ask CARA helps product owners and content authors confidently create high-quality citizen-facing scheme and article pages.
     Paste your draft, choose the page type, and CARA will:
     - Recommend structure and headers
-    - Rewrite content in CPF’s voice and hierarchy
+    - Rewrite content in the right voice and hierarchy
     - Check for accessibility and SEO compliance
     - Generate a before/after governance report
     """)
