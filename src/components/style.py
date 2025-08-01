@@ -1,38 +1,36 @@
 import streamlit as st
 
 def inject_custom_css():
-    st.markdown("""
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .stTextArea textarea {
-            font-size: 16px !important;
-            line-height: 1.5 !important;
-        }
-        .stButton button {
-            background-color: #0064b5 !important;
-            color: white !important;
-            border-radius: 6px !important;
-            padding: 0.5em 1.2em !important;
-            font-weight: 600 !important;
-            transition: background-color 0.3s ease;
-        }
-        .stButton button:hover {
-            background-color: #004e91 !important;
-        }
-        .report-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1em;
+    st.markdown(
+        """
+        <style>
+        /* Center content and constrain max width */
+        .main .block-container {
+            max-width: 900px;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            margin-left: auto;
+            margin-right: auto;
             background-color: #fff;
-            margin-bottom: 1em;
+            box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+            border-radius: 8px;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
-        .metric-container {
-            display: flex;
-            justify-content: space-around;
-            gap: 1.5rem;
+
+        /* Improve readability */
+        .main .block-container p, .main .block-container li {
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
-    </style>
-    """, unsafe_allow_html=True)
+
+        /* Optional: style headers */
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            margin-top: 1.2em;
+            margin-bottom: 0.5em;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )

@@ -11,7 +11,7 @@ def main():
 
     content_input, page_type, run_button = input_section()
 
-    if run_button and content_input:
+    if run_button and content_input.strip():
         with st.spinner("🧠 CARA is processing your inputs... this may take a few seconds"):
             try:
                 result = ask_cara_pipeline(content_input, page_type)
@@ -19,6 +19,7 @@ def main():
             except Exception as e:
                 st.error(f"⚠️ Something went wrong: {e}")
     else:
-        st.caption("Paste content and hit the button above to start.")
+        st.caption("Provide content via hyperlink, paste, or Word doc upload, then hit the button above.")
 
-main()
+if __name__ == "__main__":
+    main()

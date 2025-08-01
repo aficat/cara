@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
@@ -13,6 +14,11 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 # openai_api_key = os.getenv("OPENAI_API_KEY")
 
 llm = ChatOpenAI(model_name="gpt-4", openai_api_key=openai_api_key, temperature=0.3)
+
+def clean_response(raw_text: str) -> str:
+    # Remove control characters except \n, \t (adjust if needed)
+    cleaned = re.sub(r'[\x00-\x1f\x7f]', '', raw_text)
+    return cleaned
 
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     prompt = f"""
@@ -29,6 +35,8 @@ TASKS:
 4. Perform WCAG 2.1 accessibility checks: fix unclear link text, missing alt text, heading hierarchy issues.
 5. Perform SEO improvements: meaningful headings, internal link suggestions, keyword clarity.
 6. Generate a Governance Report Card with: a summary of changes, structure compliance, tone alignment, accessibility and SEO improvements.
+
+IMPORTANT: Please respond ONLY with valid JSON without any extra text or comments. Escape all special characters inside strings.
 
 Respond in the following JSON format:
 {{
@@ -47,4 +55,9 @@ Respond in the following JSON format:
 }}
 """
     response = llm([HumanMessage(content=prompt)])
-    return json.loads(response.content)
+    cleaned_response = clean_response(response.content)
+
+    try:
+        return json.loads(cleaned_response)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"JSON decode error: {e}\nRaw response:\n{cleaned_response}")
