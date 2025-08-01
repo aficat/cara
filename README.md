@@ -71,7 +71,9 @@ streamlit run main.py
 ```
 
 ## 🗂️ Project Structure
-| cara/
+
+```bash
+ask-cara/
 ├── components/
 │   ├── layout.py          # UI layout components
 │   ├── pipeline.py        # Core content transformation logic
@@ -79,4 +81,5 @@ streamlit run main.py
 ├── main.py                # Main Streamlit app
 ├── requirements.txt       # Dependency list
 ├── .env                   # (Optional) Local API key
-└── README.md              # This file
+└── README.md              # Project documentation
+```
