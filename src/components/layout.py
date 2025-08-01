@@ -4,7 +4,7 @@ def page_header():
     st.title("Ask CARA 🧠")
     st.subheader("Content Assistant for Readable & Accessible content")
     st.markdown("""
-    Ask CARA helps CPF product owners and content authors confidently create high-quality citizen-facing scheme and article pages.
+    Ask CARA helps product owners and content authors confidently create high-quality citizen-facing scheme and article pages.
     Paste your draft, choose the page type, and CARA will:
     - Recommend structure and headers
     - Rewrite content in CPF’s voice and hierarchy
@@ -15,7 +15,7 @@ def page_header():
 def input_section():
     col1, col2 = st.columns([2, 1])
     with col1:
-        content_input = st.text_area("✍️ Paste your draft CPF scheme/article page here:", height=300)
+        content_input = st.text_area("✍️ Paste your draft scheme/article page here:", height=300)
     with col2:
         page_type = st.selectbox("📄 Select type of page:", ["Scheme Info", "Application Guide", "Eligibility Criteria", "Others"])
         run_button = st.button("✨ Optimise with Ask CARA", use_container_width=True)

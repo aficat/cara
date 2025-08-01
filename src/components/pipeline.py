@@ -9,7 +9,7 @@ llm = ChatOpenAI(model_name="gpt-4", openai_api_key=openai_api_key, temperature=
 
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     prompt = f"""
-You are CARA, the CPF Content Assistant. Your job is to help content authors structure, rewrite, and improve CPF scheme/article pages.
+You are CARA, the Content Assistant. Your job is to help content authors structure, rewrite, and improve scheme/article pages.
 
 INPUT:
 - Page type: {page_type}

@@ -4,14 +4,14 @@ from components.layout import page_header, input_section, display_results
 from components.pipeline import ask_cara_pipeline
 
 def main():
-    st.set_page_config(page_title="Ask CARA - CPF Content Assistant", layout="wide")
+    st.set_page_config(page_title="Ask CARA - Content Assistant", layout="wide")
     inject_custom_css()
     page_header()
 
     content_input, page_type, run_button = input_section()
 
     if run_button and content_input:
-        with st.spinner("🧠 CARA is thinking... this may take a few seconds"):
+        with st.spinner("🧠 CARA is processing your inputs... this may take a few seconds"):
             try:
                 result = ask_cara_pipeline(content_input, page_type)
                 display_results(result)
@@ -39,12 +39,12 @@ if __name__ == "__main__":
 # llm = ChatOpenAI(model_name="gpt-4", openai_api_key=openai_api_key, temperature=0.3)
 
 # # App title and description
-# st.set_page_config(page_title="Ask CARA - CPF Content Assistant", layout="wide")
+# st.set_page_config(page_title="Ask CARA - Content Assistant", layout="wide")
 # st.title("Ask CARA 🧠")
 # st.subheader("Content Assistant for Readable & Accessible content")
 
 # st.markdown("""
-# Ask CARA helps CPF product owners and content authors confidently create high-quality citizen-facing scheme and article pages.
+# Ask CARA helps product owners and content authors confidently create high-quality citizen-facing scheme and article pages.
 # Paste your draft, choose the page type, and CARA will:
 # - Recommend structure and headers
 # - Rewrite content in CPF’s voice and hierarchy
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 # """)
 
 # # --- Step 1: Input Section ---
-# content_input = st.text_area("Paste your draft CPF scheme/article page here:", height=300)
+# content_input = st.text_area("Paste your draft scheme/article page here:", height=300)
 
 # page_type = st.selectbox("Select type of page:", ["Scheme Info", "Application Guide", "Eligibility Criteria", "Others"])
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
 # # --- Step 2: Processing Logic ---
 # def ask_cara_pipeline(raw_text: str, page_type: str) -> Dict:
 #     prompt = f"""
-# You are CARA, the CPF Content Assistant. Your job is to help content authors structure, rewrite, and improve CPF scheme/article pages.
+# You are CARA, the Content Assistant. Your job is to help content authors structure, rewrite, and improve scheme/article pages.
 
 # INPUT:
 # - Page type: {page_type}
