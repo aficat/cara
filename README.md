@@ -1,5 +1,5 @@
 # 🧠 Ask CARA – Content Authoring & Review Assistant
-Designed and developed by @aficat
+Designed and developed by Afiqah Rashid
 
 **Ask CARA** is your personal content governance assistant designed to help CPF product owners and content authors confidently create and review high-quality citizen-facing content.
 
