@@ -57,12 +57,12 @@ pip install -r requirements.txt
 ## 🔐 Set Up API Key
 ```bash
 # Create a .env file at the project root with:
-# OPENAI_API_KEY=your_openai_key_here
+# OPENAI_API_KEY = "your_openai_key_here"
 ```
 Or, for Streamlit Cloud deployment, create a .streamlit/secrets.toml file:
 ```bash
 # [api]
-# openai_key = "your_openai_key_here"
+# OPENAI_API_KEY = "your_openai_key_here"
 ```
 
 ## 🚀 Run the App
