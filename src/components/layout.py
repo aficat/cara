@@ -61,7 +61,7 @@ With CARA, you can:
 - Receive a detailed Governance Report Card  
 - Easily compare your original and optimised content side-by-side
 """)
-    with st.expander("How do I use this app?"):
+    with st.expander("How do I get started and use CARA?"):
         st.markdown("""
 1. Submit your draft by pasting text, entering a gov.sg URL, or uploading a Word document.  
 2. Click **Optimise with CARA** to start the review. 
@@ -91,7 +91,7 @@ def fetch_webpage_text(url: str) -> str:
         return ""
 
     # Remove unwanted tags
-    for tag in main_content(["script", "style", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"]):
+    for tag in main_content(["script", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"]):
         tag.decompose()
 
     # Remove social media bars (common class/id keywords)
@@ -202,8 +202,8 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
             st.markdown("### Input Content")
             original_wrapper = get_embedded_html_with_style(original_text)
             components.html(original_wrapper, height=400, scrolling=True)
-            with st.expander("View code"):
-                st.code(original_text, language="html", height=400)
+            # with st.expander("View code"):
+            #     st.code(original_text, language="html", height=400)
         with col2:
             # st.badge("Newly revised", color="violet")
             st.markdown("### Improved Content")
@@ -211,8 +211,8 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
             revised_wrapper = get_embedded_html_with_style(revised)
             # revised_html_with_wrapper = f'<div class="embedded-html">{revised}</div>'
             components.html(revised_wrapper, height=400, scrolling=True)
-            with st.expander("View code"):
-                st.code(revised, language="html", height=400)
+            # with st.expander("View code"):
+            #     st.code(revised, language="html", height=400)
             
             # Download as HTML
             st.download_button(
