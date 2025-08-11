@@ -8,60 +8,42 @@ import streamlit.components.v1 as components
 
 
 def page_header():
-    st.title("Optimise your content with CARA")
+    st.title("Optimise with CARA")
+    st.subheader("Content Authoring & Review Assistant")
+    with st.expander("Who is CARA?"):
+        st.markdown("""
+CARA is your intelligent Content Authoring and Review Assistant — built to help public officers create clear, citizen-centric web pages.
+
+With CARA, you can:
+- Recommend logical structure and headers  
+- Rewrite in the appropriate tone and reading level  
+- Ensure content is WCAG-compliant and readable  
+- Optimise for SEO using proven best practices  
+- Receive a Governance Report Card  
+- Compare original and optimised content side-by-side
+""")
 
 def input_section():
     st.markdown("### Submit your content")
-
-    content = ""
-    run_button = False
-
     input_type = st.radio(
-        "Choose how to provide content:",
-        ("URL (gov.sg only)", "Paste content", "Upload Word document"),
-        index=0
+        "Provide content via:",
+        ("URL (gov.sg only)", "Paste content", "Upload Word document")
     )
-
+    content = ""
     if input_type == "URL (gov.sg only)":
-        url = st.text_input("Enter a government website URL:", placeholder="https://www.gov.sg/...")
+        url = st.text_input("Enter URL:")
         if url and "gov.sg" not in url.lower():
-            st.error("Only URLs from gov.sg are allowed.")
+            st.error("Only gov.sg URLs allowed.")
         elif url:
-            try:
-                content = fetch_webpage_text(url)
-                if not content.strip():
-                    st.error("No readable content found at the URL.")
-                    content = ""
-            except Exception as e:
-                st.error(f"Failed to retrieve content: {e}")
-                content = ""
-        run_button = st.button("Optimise with CARA", use_container_width=True)
-
+            content = fetch_webpage_text(url) or ""
     elif input_type == "Paste content":
-        content = st.text_area(
-            "Paste your draft below:",
-            height=250,
-            placeholder="Paste your article or scheme draft here..."
-        )
-        run_button = st.button("Optimise with CARA", use_container_width=True)
-
+        content = st.text_area("Paste your draft:", height=250)
     elif input_type == "Upload Word document":
-        uploaded_file = st.file_uploader("Upload a .docx document", type=["docx"])
+        uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
         if uploaded_file:
-            try:
-                content = read_docx(uploaded_file)
-                if not content.strip():
-                    st.error("The document appears to be empty.")
-                    content = ""
-            except Exception as e:
-                st.error(f"Unable to read the document: {e}")
-                content = ""
-        run_button = st.button("Optimise with CARA", use_container_width=True)
-
-    st.markdown("### CARA's Output")
-
-    return content or "", input_type or "Unknown", run_button or False
-
+            content = read_docx(uploaded_file)
+    run = st.button("Optimise with CARA", use_container_width=True)
+    return content, run
 
 def fetch_webpage_text(url: str) -> str:
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -149,74 +131,30 @@ def highlight_differences(original: str, revised: str) -> str:
 
 
 def display_results(result: dict, original_text: str):
-    st.markdown("## Summary")
-    summary = result.get("summary") or result.get("governance_report", {}).get("summary") or "No summary available."
-    st.info(summary)
+    st.markdown("### Summary")
+    st.info(result.get("governance_report", {}).get("summary", "No summary available."))
+    st.markdown("### Governance Report Card")
+    cols = st.columns([1,1,1,1], gap="small")
+    scores = result.get("governance_report", {})
+    labels = ["Structure", "Tone", "Accessibility", "SEO"]
+    for col, label in zip(cols, labels):
+        col.metric(label, scores.get(f"{label.lower()}_score", "N/A"))
 
-    st.markdown("## Governance Report Card")
-    scores = result.get("governance_report") or {}
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Structure", scores.get("structure_score", "N/A"))
-    col2.metric("Tone of Voice", scores.get("tone_score", "N/A"))
-    col3.metric("Accessibility", scores.get("accessibility_score", "N/A"))
-    col4.metric("SEO", scores.get("seo_score", "N/A"))
-
-    revised_text = result.get("revised_content") or result.get("rewritten_text", "")
-    if original_text.strip() and revised_text.strip():
-        st.markdown("## Original vs Rewritten Content")
-        with st.expander("Compare content differences"):
-            diff_html = highlight_differences(original_text, revised_text)
+    revised = result.get("revised_content", "")
+    if original_text and revised:
+        st.markdown("### Comparison")
+        with st.expander("View differences"):
+            diff_html = highlight_differences(original_text, revised)
             components.html(diff_html, height=400, scrolling=True)
-    else:
-        st.warning("Both original and revised content are required for comparison.")
 
-    if revised_text:
-        b64 = base64.b64encode(revised_text.encode("utf-8")).decode()
-        href = (
-            f'<a href="data:text/plain;base64,{b64}" download="revised_content.txt">'
-            f"📥 Download revised content as .txt</a>"
-        )
-        st.markdown(href, unsafe_allow_html=True)
-    else:
-        st.info("No revised content available to download.")
+    if revised:
+        b64 = base64.b64encode(revised.encode("utf-8")).decode()
+        st.markdown(f'<a href="data:text/plain;base64,{b64}" download="revised_content.txt">Download Revised Text</a>', unsafe_allow_html=True)
 
-    st.markdown("## Suggestions to Improve")
-
-    structure = result.get("recommended_structure", [])
-    if structure:
-        st.markdown("### Structure")
-        for s in structure:
-            st.markdown(f"- {s}")
-
-    tone = result.get("tone_fixes", [])
-    if tone:
-        st.markdown("### Tone of Voice")
-        for t in tone:
-            st.markdown(f"- {t}")
-
-    accessibility = result.get("accessibility_fixes", [])
-    if accessibility:
-        st.markdown("### Accessibility")
-        for a in accessibility:
-            st.markdown(f"- {a}")
-
-    seo = result.get("seo_fixes", [])
-    if seo:
-        st.markdown("### SEO")
-        for s in seo:
-            st.markdown(f"- {s}")
-
-def page_faq():
-    st.markdown("### Frequently Asked Questions")
-    with st.expander("What is Optimise with CARA?"):
-        st.markdown("""
-        **Optimise with CARA** is your intelligent Content Authoring and Review Assistant — built to help public officers create clear, citizen-centric web pages.
-
-        With CARA, you can:
-        - Recommend logical structure and headers  
-        - Rewrite in the appropriate tone and reading level  
-        - Ensure content is WCAG-compliant and readable  
-        - Optimise for SEO using global best practices  
-        - Receive a Governance Report Card with areas to improve  
-        - Compare original and optimised content side-by-side  
-        """)
+    st.markdown("### Suggestions")
+    for section in ["recommended_structure", "tone_fixes", "accessibility_fixes", "seo_fixes"]:
+        items = result.get(section, [])
+        if items:
+            st.markdown(f"#### {section.replace('_', ' ').title()}")
+            for item in items:
+                st.markdown(f"- {item}")

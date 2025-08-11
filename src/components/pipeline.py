@@ -7,12 +7,12 @@ from langchain.schema import HumanMessage
 from langchain.schema import SystemMessage
 
 # Load API key from Streamlit Secrets
-openai_api_key = st.secrets["OPENAI_API_KEY"]
+# openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Load API key from .env
-# from dotenv import load_dotenv
-# load_dotenv()
-# openai_api_key = os.getenv("OPENAI_API_KEY")
+from dotenv import load_dotenv
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 llm = ChatOpenAI(
     model_name="gpt-4",
