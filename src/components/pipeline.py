@@ -3,16 +3,33 @@ import os
 import re
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
-from langchain.schema import SystemMessage
+from langchain.schema import HumanMessage, SystemMessage
+
+# For PDF loading and vector search
+from langchain.document_loaders import PyPDFLoader
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.chains import RetrievalQA
 
 # Load API key from Streamlit Secrets
-# openai_api_key = st.secrets["OPENAI_API_KEY"]
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Load API key from .env
-from dotenv import load_dotenv
-load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY")
+# from dotenv import load_dotenv
+# load_dotenv()
+# openai_api_key = os.getenv("OPENAI_API_KEY")
+
+# Cache loading of content playbook
+@st.cache_resource(show_spinner=False)
+def load_content_playbook():
+    loader = PyPDFLoader("src/resources/contentplaybook.pdf") 
+    docs = loader.load()
+    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    vectorstore = FAISS.from_documents(docs, embeddings)
+    return vectorstore
+
+# Initialize LLM and playbook retriever once
+
 
 llm = ChatOpenAI(
     model_name="gpt-4",

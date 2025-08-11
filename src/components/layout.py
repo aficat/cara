@@ -1,4 +1,3 @@
-# components/layout.py
 import streamlit as st
 from docx import Document
 from bs4 import BeautifulSoup
@@ -23,6 +22,7 @@ With CARA, you can:
 - Compare original and optimised content side-by-side
 """)
 
+
 def input_section():
     st.markdown("### Submit your content")
     input_type = st.radio(
@@ -44,6 +44,7 @@ def input_section():
             content = read_docx(uploaded_file)
     run = st.button("Optimise with CARA", use_container_width=True)
     return content, run
+
 
 def fetch_webpage_text(url: str) -> str:
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -130,31 +131,37 @@ def highlight_differences(original: str, revised: str) -> str:
     return new_html
 
 
-def display_results(result: dict, original_text: str):
-    st.markdown("### Summary")
-    st.info(result.get("governance_report", {}).get("summary", "No summary available."))
+def display_results(result: dict, original_text: str = None):
+    # Show governance report card on top
     st.markdown("### Governance Report Card")
-    cols = st.columns([1,1,1,1], gap="small")
+    cols = st.columns([1, 1, 1, 1], gap="small")
     scores = result.get("governance_report", {})
     labels = ["Structure", "Tone", "Accessibility", "SEO"]
     for col, label in zip(cols, labels):
         col.metric(label, scores.get(f"{label.lower()}_score", "N/A"))
 
+    # Show output text area for revised content
     revised = result.get("revised_content", "")
-    if original_text and revised:
-        st.markdown("### Comparison")
-        with st.expander("View differences"):
-            diff_html = highlight_differences(original_text, revised)
-            components.html(diff_html, height=400, scrolling=True)
-
     if revised:
-        b64 = base64.b64encode(revised.encode("utf-8")).decode()
-        st.markdown(f'<a href="data:text/plain;base64,{b64}" download="revised_content.txt">Download Revised Text</a>', unsafe_allow_html=True)
+        st.markdown("### Revised Content")
+        st.text_area("Optimised content:", value=revised, height=300, disabled=True)
 
+    # Suggestions tab for improvements in structure, tone, accessibility, SEO
     st.markdown("### Suggestions")
-    for section in ["recommended_structure", "tone_fixes", "accessibility_fixes", "seo_fixes"]:
-        items = result.get(section, [])
-        if items:
-            st.markdown(f"#### {section.replace('_', ' ').title()}")
-            for item in items:
-                st.markdown(f"- {item}")
+    tabs = st.tabs(["Structure", "Tone", "Accessibility", "SEO"])
+
+    suggestions_map = {
+        "Structure": result.get("recommended_structure", []),
+        "Tone": result.get("tone_fixes", []),
+        "Accessibility": result.get("accessibility_fixes", []),
+        "SEO": result.get("seo_fixes", [])
+    }
+
+    for tab, tab_label in zip(tabs, ["Structure", "Tone", "Accessibility", "SEO"]):
+        with tab:
+            items = suggestions_map.get(tab_label, [])
+            if items:
+                for item in items:
+                    st.markdown(f"- {item}")
+            else:
+                st.write("No suggestions available.")
