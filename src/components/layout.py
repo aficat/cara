@@ -2,13 +2,15 @@ import streamlit as st
 from docx import Document
 from bs4 import BeautifulSoup
 import requests
+import docx
+from io import BytesIO
 import streamlit.components.v1 as components
 
 def page_header():
     with st.container():
-        st.title("Optimise with CARA")
+        st.title("✨ Optimise with CARA")
         st.markdown(
-            "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Content Authoring & Review Assistant</h3>",
+            "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Your personal Content Authoring & Review Assistant</h3>",
             unsafe_allow_html=True,
         )
     st.markdown("---")
@@ -19,21 +21,21 @@ def input_section():
         col1, col2 = st.columns([1, 1], gap="large")
 
         with col1:
-            st.markdown("### Submit your content")
+            st.markdown("### 📝 Start your content review")
             input_type = st.radio(
-                "Provide content via:",
-                ("URL (gov.sg only)", "Paste content", "Upload Word document")
+                "Choose how you'd like to provide your draft",
+                ("Website URL", "Paste your draft directly", "Upload a Word document")
             )
             content = ""
-            if input_type == "URL (gov.sg only)":
-                url = st.text_input("Enter URL:")
+            if input_type == "Website URL":
+                url = st.text_input("Enter URL (gov.sg sites only)")
                 if url and "gov.sg" not in url.lower():
                     st.error("Only gov.sg URLs allowed.")
                 elif url:
                     content = fetch_webpage_text(url) or ""
-            elif input_type == "Paste content":
-                content = st.text_area("Paste your draft:", height=250)
-            elif input_type == "Upload Word document":
+            elif input_type == "Paste your draft directly":
+                content = st.text_area("Paste your draft", height=250)
+            elif input_type == "Upload a Word document":
                 uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
                 if uploaded_file:
                     content = read_docx(uploaded_file)
@@ -46,30 +48,36 @@ def input_section():
 
 
 def faq_section():
-    st.markdown("### FAQs & About CARA")
+    st.markdown("### 💬 FAQs about CARA")
     with st.expander("Who is CARA?"):
         st.markdown("""
-CARA is your intelligent Content Authoring and Review Assistant — built to help public officers create clear, citizen-centric web pages.
+CARA is your helpful content assistant designed to support public officers in creating clear, citizen-friendly web pages — fast and confidently.
 
 With CARA, you can:
-- Recommend logical structure and headers  
-- Rewrite in the appropriate tone and reading level  
-- Ensure content is WCAG-compliant and readable  
-- Optimise for SEO using proven best practices  
-- Receive a Governance Report Card  
-- Compare original and optimised content side-by-side
+- Get smart recommendations for logical page structure and headings
+- Rewrite content in a clear, professional tone suited for your audience
+- Ensure your content meets WCAG accessibility standards
+- Optimise your pages for SEO using trusted best practices
+- Receive a detailed Governance Report Card  
+- Easily compare your original and optimised content side-by-side
 """)
-    with st.expander("How to use this app?"):
+    with st.expander("How do I use this app?"):
         st.markdown("""
-1. Submit your content by pasting, URL, or uploading a Word document.  
-2. Click **Optimise with CARA**.  
-3. Review the content score card and suggested improvements.  
-4. Compare your original and optimised content side-by-side.  
-5. Download or copy the improved content for publishing.
+1. Submit your draft by pasting text, entering a gov.sg URL, or uploading a Word document.  
+2. Click **Optimise with CARA** to start the review. 
+3. View your content score card and detailed improvement suggestions.
+4. Compare your original and optimised drafts to see the changes clearly.
+5. Download or copy your newly improved suggested copy.
 """)
-    with st.expander("Why is WCAG compliance important?"):
+    with st.expander("Why is content governance important?"):
         st.markdown("""
-Ensuring WCAG 2.1 compliance means your content is accessible to all users, including those with disabilities — improving usability and legal compliance.
+Content governance helps you create clear, consistent, and compliant web pages—fast. It saves you time, ensures a unified tone and brand, makes content accessible to everyone, and reduces risk by meeting standards.
+
+In short, it lets you work smarter while delivering trustworthy, user-friendly content.
+""")
+    with st.expander("Is CARA still being improved?"):
+        st.markdown("""
+Yes, CARA is a work in progress, and we’re committed to making it better over time to help you create clearer, more consistent, and compliant content.
 """)
 
 
@@ -83,7 +91,7 @@ def fetch_webpage_text(url: str) -> str:
         return ""
 
     # Remove unwanted tags
-    for tag in main_content(["script", "style", "nav", "footer", "header", "noscript", "form"]):
+    for tag in main_content(["script", "style", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"]):
         tag.decompose()
 
     # Remove social media bars (common class/id keywords)
@@ -194,11 +202,39 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
             st.markdown("### Input Content")
             original_wrapper = get_embedded_html_with_style(original_text)
             components.html(original_wrapper, height=400, scrolling=True)
-            st.text_area("Original content:", value=original_text, height=400, disabled=True)
+            with st.expander("View code"):
+                st.code(original_text, language="html", height=400)
         with col2:
+            # st.badge("Newly revised", color="violet")
             st.markdown("### Improved Content")
             revised = result.get("revised_content", "")
             revised_wrapper = get_embedded_html_with_style(revised)
             # revised_html_with_wrapper = f'<div class="embedded-html">{revised}</div>'
             components.html(revised_wrapper, height=400, scrolling=True)
-            st.text_area("Optimised content:", value=revised, height=400, disabled=True)
+            with st.expander("View code"):
+                st.code(revised, language="html", height=400)
+            
+            # Download as HTML
+            st.download_button(
+                label="Download as HTML",
+                data=revised,
+                file_name="revised_content.html",
+                mime="text/html"
+            )
+
+            # Download as Word docx
+            soup = BeautifulSoup(revised, "html.parser")
+            plain_text = soup.get_text()
+
+            doc = docx.Document()
+            doc.add_paragraph(plain_text)
+            buffer = BytesIO()
+            doc.save(buffer)
+            buffer.seek(0)
+
+            st.download_button(
+                label="Download as Word",
+                data=buffer,
+                file_name="revised_content.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )

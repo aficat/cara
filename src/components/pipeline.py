@@ -63,14 +63,16 @@ INPUT:
 OBJECTIVES:
 - Produce citizen-facing content that is accessible, well-structured, and search-optimised
 - Provide rewrites based on content tone, structure, and information hierarchy
+- Inputs and outputs should be in textual HTML formats in headings, paragraphs, tables, bulleted, hyperlinks or numbered points.
 
 TASKS:
 1. Identify the **intent** and **purpose** of the content
-2. Recommend an ideal content structure (e.g., "Who it’s for", "How to qualify", "How to apply")
+2. Recommend an ideal content structure
 3. Rewrite the draft with:
    - Clear, helpful, professional tone of voice
    - Logical heading levels (H1, H2, bullet points)
    - Improved readability, scannability, and service clarity
+   - Ensure none of the content's messaging is omitted
 
 4. Apply **WCAG 2.1 accessibility** checks:
    - Improve heading hierarchy and reading order
@@ -92,7 +94,11 @@ TASKS:
    - Before/after comparison of major improvements
 
 OUTPUT FORMAT:
-Return only valid **JSON** (no extra text, no comments). All values must be strings or string arrays. Escape special characters properly.
+Return only valid **JSON** (no extra text, no comments). 
+All values must be strings or string arrays. 
+Escape special characters properly.
+Content score card results will always be scored out of 10 points and display in the format of score/10.
+Ensure none of the content is omitted.
 
 Format:
 {{

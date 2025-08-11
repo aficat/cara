@@ -2,7 +2,6 @@ import streamlit as st
 from components.layout import (
     page_header,
     input_section,
-    faq_section,
     display_content_score_card,
     display_content_columns_and_suggestions,
 )
