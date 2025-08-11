@@ -1,4 +1,3 @@
-# components/style.py
 import streamlit as st
 
 def inject_custom_css():
@@ -45,28 +44,23 @@ def inject_custom_css():
             box-shadow: 0 4px 12px rgba(91, 62, 150, 0.1);
         }
 
-        /* Scrollable diffs container */
-        iframe, .streamlit-expanderHeader {
-            font-family: 'Inter', sans-serif;
-        }
-
         /* Buttons */
         .stButton > button {
-            background-color: #FFFFFF !important;     /* White fill */
-            color: #6E46A1 !important;                /* Purple text */
-            border: 2px solid #6E46A1 !important;     /* Purple outline */
+            background-color: #FFFFFF !important;
+            color: #6E46A1 !important;
+            border: 2px solid #6E46A1 !important;
             font-weight: 600 !important;
             border-radius: 8px !important;
             padding: 0.6em 1.2em !important;
             transition: background-color 0.3s ease, color 0.3s ease !important;
         }
         .stButton > button:hover {
-            background-color: #DCCEF8 !important;     /* Lighter purple fill on hover */
-            color: #111827 !important;                /* Dark text on hover */
+            background-color: #DCCEF8 !important;
+            color: #111827 !important;
             border-color: #DCCEF8 !important;
         }
         .stButton > button:focus-visible {
-            outline: 3px solid #111827 !important;    /* High-contrast focus ring */
+            outline: 3px solid #111827 !important;
             outline-offset: 2px !important;
         }
 
@@ -84,26 +78,9 @@ def inject_custom_css():
         }
 
         /* Accessibility message emphasis */
-        .stError { color: #D32F2F; font-weight: 600; }
-        .stWarning { color: #B45309; font-weight: 600; }
+        .stError { color: #D32F2F; font-weight: 700; }
+        .stWarning { color: #F9A825; font-weight: 700; }
 
-        /* TextArea resize control */
-        textarea {
-            resize: vertical;
-            min-height: 150px;
-            max-height: 400px;
-        }
-
-        /* Respect reduced motion preferences */
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; animation: none !important; }
-        }
-
-        /* Responsive tweaks */
-        @media (max-width: 768px) {
-            .main .block-container { padding: 1rem 1.5rem; }
-            [data-testid="stColumns"] > div { padding: 0.5rem; }
-        }
         </style>
         """,
         unsafe_allow_html=True,

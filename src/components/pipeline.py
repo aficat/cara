@@ -29,12 +29,10 @@ def load_content_playbook():
     return vectorstore
 
 # Initialize LLM and playbook retriever once
-
-
 llm = ChatOpenAI(
     model_name="gpt-4",
     openai_api_key=openai_api_key,
-    temperature=0.3
+    temperature=0.3,
 )
 
 def clean_response(raw_text: str) -> str:
@@ -90,6 +88,7 @@ Format:
   "intent": "...",
   "recommended_structure": ["...", "..."],
   "revised_content": "...",
+  "tone_fixes": ["..."],
   "accessibility_fixes": ["..."],
   "seo_fixes": ["..."],
   "governance_report": {{
@@ -104,7 +103,7 @@ Format:
 
     response = llm([
         SystemMessage(content="You are CARA, a content governance assistant."),
-        HumanMessage(content=prompt)
+        HumanMessage(content=prompt),
     ])
 
     cleaned_response = clean_response(response.content)
