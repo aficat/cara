@@ -32,22 +32,33 @@ def load_content_playbook():
 llm = ChatOpenAI(
     model_name="gpt-4",
     openai_api_key=openai_api_key,
-    temperature=0.3,
+    temperature=0.3
 )
+
+MAX_CHARS = 8000  # Rough limit to keep token count under max context length
 
 def clean_response(raw_text: str) -> str:
     """Remove control characters from raw model output (except \n, \t)."""
     return re.sub(r'[\x00-\x1f\x7f]', '', raw_text)
 
+def truncate_text(text: str, max_chars=MAX_CHARS) -> str:
+    """Truncate text to max_chars, add truncation notice."""
+    if len(text) > max_chars:
+        return text[:max_chars] + "\n\n...[truncated]..."
+    return text
+
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     """Core CARA pipeline to process content using tone, SEO, and WCAG logic."""
+
+    # Truncate input text to avoid token limit errors
+    truncated_text = truncate_text(raw_text)
 
     prompt = f"""
 You are CARA, the Content Authoring & Review Assistant developed for public content. Your job is to help authors rewrite and improve pages to meet content governance playbook and global accessibility (WCAG 2.1) and SEO standards.
 
 INPUT:
 - Page type: {page_type}
-- Draft content: {raw_text}
+- Draft content: {truncated_text}
 
 OBJECTIVES:
 - Produce citizen-facing content that is accessible, well-structured, and search-optimised
@@ -88,7 +99,6 @@ Format:
   "intent": "...",
   "recommended_structure": ["...", "..."],
   "revised_content": "...",
-  "tone_fixes": ["..."],
   "accessibility_fixes": ["..."],
   "seo_fixes": ["..."],
   "governance_report": {{
@@ -103,7 +113,7 @@ Format:
 
     response = llm([
         SystemMessage(content="You are CARA, a content governance assistant."),
-        HumanMessage(content=prompt),
+        HumanMessage(content=prompt)
     ])
 
     cleaned_response = clean_response(response.content)

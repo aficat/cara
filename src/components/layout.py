@@ -81,11 +81,32 @@ def fetch_webpage_text(url: str) -> str:
     main_content = soup.find("main") or soup.find("body")
     if not main_content:
         return ""
+
+    # Remove unwanted tags
     for tag in main_content(["script", "style", "nav", "footer", "header", "noscript", "form"]):
         tag.decompose()
-    texts = main_content.stripped_strings
-    return "\n".join(texts)
 
+    # Remove social media bars (common class/id keywords)
+    social_selectors = [
+        '[class*="social"]',
+        '[class*="share"]',
+        '[class*="follow"]',
+        '[class*="fb"]',
+        '[class*="twitter"]',
+        '[class*="instagram"]',
+        '[class*="linkedin"]',
+        '[class*="pinterest"]',
+        '[id*="social"]',
+        '[id*="share"]',
+        '[id*="follow"]',
+    ]
+
+    for selector in social_selectors:
+        for elem in main_content.select(selector):
+            elem.decompose()
+
+    # Return inner HTML instead of plain text
+    return str(main_content)
 
 def read_docx(uploaded_file) -> str:
     doc = Document(uploaded_file)
@@ -120,14 +141,64 @@ def display_content_score_card(result: dict):
             else:
                 st.write("No suggestions available.")
 
+def get_embedded_html_with_style(html_content: str) -> str:
+    embedded_css = """
+    <style>
+    body {
+        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+            Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: #3D3865;
+        padding: 1rem;
+    }
+    h1, h2, h3 {
+        color: #5B3E96;
+        font-weight: 600;
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+    }
+    p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin-bottom: 1em;
+    }
+    a {
+        color: #6B4C9A;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        text-align: left;
+    }
+    </style>
+    """
+    return f"""
+    {embedded_css}
+    <div>
+        {html_content}
+    </div>
+    """
 
 def display_content_columns_and_suggestions(result: dict, original_text: str):
     with st.container():
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             st.markdown("### Input Content")
+            original_wrapper = get_embedded_html_with_style(original_text)
+            components.html(original_wrapper, height=400, scrolling=True)
             st.text_area("Original content:", value=original_text, height=400, disabled=True)
         with col2:
             st.markdown("### Improved Content")
             revised = result.get("revised_content", "")
+            revised_wrapper = get_embedded_html_with_style(revised)
+            # revised_html_with_wrapper = f'<div class="embedded-html">{revised}</div>'
+            components.html(revised_wrapper, height=400, scrolling=True)
             st.text_area("Optimised content:", value=revised, height=400, disabled=True)

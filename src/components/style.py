@@ -80,7 +80,6 @@ def inject_custom_css():
         /* Accessibility message emphasis */
         .stError { color: #D32F2F; font-weight: 700; }
         .stWarning { color: #F9A825; font-weight: 700; }
-
         </style>
         """,
         unsafe_allow_html=True,
