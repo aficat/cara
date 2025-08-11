@@ -1,3 +1,4 @@
+# components/style.py
 import streamlit as st
 
 def inject_custom_css():
@@ -49,21 +50,24 @@ def inject_custom_css():
             font-family: 'Inter', sans-serif;
         }
 
-       /* Buttons */
+        /* Buttons */
         .stButton > button {
-            background-color: white !important;      /* White fill */
-            color: #8A63C1 !important;               /* Purple text */
-            border: 2px solid #8A63C1 !important;   /* Purple outline */
+            background-color: #FFFFFF !important;     /* White fill */
+            color: #6E46A1 !important;                /* Purple text */
+            border: 2px solid #6E46A1 !important;     /* Purple outline */
             font-weight: 600 !important;
             border-radius: 8px !important;
             padding: 0.6em 1.2em !important;
             transition: background-color 0.3s ease, color 0.3s ease !important;
         }
-
         .stButton > button:hover {
-            background-color: #C9B8F7 !important;   /* Lighter purple fill on hover */
-            color: black !important;                 /* Black text on hover */
-            border-color: #C9B8F7 !important;
+            background-color: #DCCEF8 !important;     /* Lighter purple fill on hover */
+            color: #111827 !important;                /* Dark text on hover */
+            border-color: #DCCEF8 !important;
+        }
+        .stButton > button:focus-visible {
+            outline: 3px solid #111827 !important;    /* High-contrast focus ring */
+            outline-offset: 2px !important;
         }
 
         /* Link styles */
@@ -72,21 +76,16 @@ def inject_custom_css():
             text-decoration: none;
             font-weight: 500;
         }
-
-        a:hover {
-            text-decoration: underline;
+        a:hover { text-decoration: underline; }
+        a:focus-visible {
+            outline: 3px solid #111827;
+            outline-offset: 2px;
+            border-radius: 4px;
         }
 
-        /* Accessibility improvements */
-        .stError {
-            color: #D32F2F; /* error red */
-            font-weight: 600;
-        }
-
-        .stWarning {
-            color: #FBC02D; /* warning yellow */
-            font-weight: 600;
-        }
+        /* Accessibility message emphasis */
+        .stError { color: #D32F2F; font-weight: 600; }
+        .stWarning { color: #B45309; font-weight: 600; }
 
         /* TextArea resize control */
         textarea {
@@ -95,14 +94,15 @@ def inject_custom_css():
             max-height: 400px;
         }
 
+        /* Respect reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+
         /* Responsive tweaks */
         @media (max-width: 768px) {
-            .main .block-container {
-                padding: 1rem 1.5rem;
-            }
-            [data-testid="stColumns"] > div {
-                padding: 0.5rem;
-            }
+            .main .block-container { padding: 1rem 1.5rem; }
+            [data-testid="stColumns"] > div { padding: 0.5rem; }
         }
         </style>
         """,

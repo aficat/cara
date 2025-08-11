@@ -1,3 +1,4 @@
+# components/layout.py
 import streamlit as st
 from docx import Document
 from bs4 import BeautifulSoup
@@ -7,33 +8,18 @@ import streamlit.components.v1 as components
 
 
 def page_header():
-    st.title("Optimise with CARA")
-    st.subheader("Content Authoring & Review Assistant")
-
-    with st.expander("Who is CARA?"):
-        st.markdown("""
-        **CARA** is your intelligent Content Authoring and Review Assistant — built to help public officers create clear, citizen-centric web pages.
-
-        With CARA, you can:
-        - Recommend logical structure and headers  
-        - Rewrite in the appropriate tone and reading level  
-        - Ensure content is WCAG-compliant and readable  
-        - Optimise for SEO using proven global best practices  
-        - Receive a Governance Report Card with areas to improve  
-        - Compare original and optimised content side-by-side  
-        """)
-
+    st.title("Optimise your content with CARA")
 
 def input_section():
     st.markdown("### Submit your content")
 
     content = ""
     run_button = False
-    input_type = None
 
     input_type = st.radio(
         "Choose how to provide content:",
-        ("URL (gov.sg only)", "Paste content", "Upload Word document")
+        ("URL (gov.sg only)", "Paste content", "Upload Word document"),
+        index=0
     )
 
     if input_type == "URL (gov.sg only)":
@@ -60,10 +46,7 @@ def input_section():
         run_button = st.button("Optimise with CARA", use_container_width=True)
 
     elif input_type == "Upload Word document":
-        uploaded_file = st.file_uploader(
-            "Upload a .docx document",
-            type=["docx"]
-        )
+        uploaded_file = st.file_uploader("Upload a .docx document", type=["docx"])
         if uploaded_file:
             try:
                 content = read_docx(uploaded_file)
@@ -75,7 +58,6 @@ def input_section():
                 content = ""
         run_button = st.button("Optimise with CARA", use_container_width=True)
 
-    # Output below input
     st.markdown("### CARA's Output")
 
     return content or "", input_type or "Unknown", run_button or False
@@ -94,7 +76,6 @@ def fetch_webpage_text(url: str) -> str:
     if not container:
         return ""
 
-    # Remove unwanted tags inside container
     for tag in container(["script", "style", "nav", "footer", "header", "noscript", "form"]):
         tag.decompose()
 
@@ -104,7 +85,7 @@ def fetch_webpage_text(url: str) -> str:
 
 def read_docx(uploaded_file) -> str:
     doc = Document(uploaded_file)
-    full_text = [para.text for para in doc.paragraphs]
+    full_text = [para.text.strip() for para in doc.paragraphs if para.text.strip()]
     return "\n".join(full_text)
 
 
@@ -114,7 +95,6 @@ def highlight_differences(original: str, revised: str) -> str:
     differ = difflib.HtmlDiff(wrapcolumn=80)
     raw_html = differ.make_file(original.splitlines(), revised.splitlines(), context=True, numlines=3)
 
-    # Custom CSS for a modern, clean diff display
     custom_css = """
     <style>
         table.diff {
@@ -192,7 +172,10 @@ def display_results(result: dict, original_text: str):
 
     if revised_text:
         b64 = base64.b64encode(revised_text.encode("utf-8")).decode()
-        href = f'<a href="data:text/plain;base64,{b64}" download="revised_content.txt">Download Revised Text</a>'
+        href = (
+            f'<a href="data:text/plain;base64,{b64}" download="revised_content.txt">'
+            f"📥 Download revised content as .txt</a>"
+        )
         st.markdown(href, unsafe_allow_html=True)
     else:
         st.info("No revised content available to download.")
@@ -222,3 +205,18 @@ def display_results(result: dict, original_text: str):
         st.markdown("### SEO")
         for s in seo:
             st.markdown(f"- {s}")
+
+def page_faq():
+    st.markdown("### Frequently Asked Questions")
+    with st.expander("What is Optimise with CARA?"):
+        st.markdown("""
+        **Optimise with CARA** is your intelligent Content Authoring and Review Assistant — built to help public officers create clear, citizen-centric web pages.
+
+        With CARA, you can:
+        - Recommend logical structure and headers  
+        - Rewrite in the appropriate tone and reading level  
+        - Ensure content is WCAG-compliant and readable  
+        - Optimise for SEO using global best practices  
+        - Receive a Governance Report Card with areas to improve  
+        - Compare original and optimised content side-by-side  
+        """)
