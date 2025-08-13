@@ -7,7 +7,7 @@ from components.layout import (
 )
 from components.pipeline import ask_cara_pipeline
 
-st.set_page_config(page_title="Optimise with CARA", layout="wide")
+st.set_page_config(page_title="Enable your content with CARAble", layout="wide")
 
 def login():
     """Simple login form before showing main app."""
@@ -15,7 +15,7 @@ def login():
     if st.session_state.get("logged_in"):
         return True
 
-    st.title("🔒 Login to Optimise with CARA")
+    st.title("🔒 Login to use CARAble")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -35,14 +35,14 @@ def main():
     # Input section with 2 columns: left input + right FAQ
     content, run = input_section()
 
-    # Only show results after user clicks "Optimise with CARA"
+    # Only show results after user clicks "Enable your content with CARAble"
     if run:
         if not content.strip():
             st.warning("Please provide content to process.")
             return
         
         st.divider()
-        with st.spinner("CARA is optimising..."):
+        with st.spinner("CARAble is enabling your content..."):
             result = ask_cara_pipeline(content, "")
 
         # Content Score Card

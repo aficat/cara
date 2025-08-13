@@ -8,7 +8,7 @@ import streamlit.components.v1 as components
 
 def page_header():
     with st.container():
-        st.title("✨ Optimise with CARA")
+        st.title("✨ Enable your content with CARAble")
         st.markdown(
             "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Your personal Content Authoring & Review Assistant</h3>",
             unsafe_allow_html=True,
@@ -39,7 +39,7 @@ def input_section():
                 uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
                 if uploaded_file:
                     content = read_docx(uploaded_file)
-            run = st.button("Optimise with CARA", use_container_width=True)
+            run = st.button("Enable your content with CARAble", use_container_width=True)
 
         with col2:
             faq_section()
@@ -48,12 +48,12 @@ def input_section():
 
 
 def faq_section():
-    st.markdown("### 💬 FAQs about CARA")
-    with st.expander("Who is CARA?"):
+    st.markdown("### 💬 FAQs")
+    with st.expander("Who is CARAble?"):
         st.markdown("""
-CARA is your helpful content assistant designed to support public officers in creating clear, citizen-friendly web pages — fast and confidently.
+CARAble is your helpful content assistant designed to support public officers in creating clear, citizen-friendly web pages — fast and confidently.
 
-With CARA, you can:
+With CARAble, you can:
 - Get smart recommendations for logical page structure and headings
 - Rewrite content in a clear, professional tone suited for your audience
 - Ensure your content meets WCAG accessibility standards
@@ -61,10 +61,10 @@ With CARA, you can:
 - Receive a detailed Governance Report Card  
 - Easily compare your original and optimised content side-by-side
 """)
-    with st.expander("How do I get started and use CARA?"):
+    with st.expander("How do I get started and use CARAble?"):
         st.markdown("""
 1. Submit your draft by pasting text, entering a gov.sg URL, or uploading a Word document.  
-2. Click **Optimise with CARA** to start the review. 
+2. Click **Enable your content with CARAble** to start the review. 
 3. View your content score card and detailed improvement suggestions.
 4. Compare your original and optimised drafts to see the changes clearly.
 5. Download or copy your newly improved suggested copy.
@@ -75,9 +75,9 @@ Content governance helps you create clear, consistent, and compliant web pages�
 
 In short, it lets you work smarter while delivering trustworthy, user-friendly content.
 """)
-    with st.expander("Is CARA still being improved?"):
+    with st.expander("Is CARAble still being improved?"):
         st.markdown("""
-Yes, CARA is a work in progress, and we’re committed to making it better over time to help you create clearer, more consistent, and compliant content.
+Yes, CARAble is a work in progress, and we’re committed to making it better over time to help you create clearer, more consistent, and compliant content.
 """)
 
 

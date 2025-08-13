@@ -48,12 +48,12 @@ def truncate_text(text: str, max_chars=MAX_CHARS) -> str:
     return text
 
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
-    """Core CARA pipeline to process content using tone, SEO, and WCAG logic."""
+    """Core CARAble pipeline to process content using tone, SEO, and WCAG logic."""
 
     truncated_text = truncate_text(raw_text)
 
     prompt = f"""
-You are CARA, the Content Authoring & Review Assistant developed for public content. Your job is to help authors rewrite and improve pages to meet content governance playbook and global accessibility (WCAG 2.1) and SEO standards.
+You are CARAble, the Content Authoring & Review Assistant developed for public content. Your job is to help authors rewrite and improve pages to meet content governance playbook and global accessibility (WCAG 2.1) and SEO standards.
 
 INPUT:
 - Page type: {page_type}
@@ -119,7 +119,7 @@ Format:
 """
 
     response = llm([
-        SystemMessage(content="You are CARA, a content governance assistant."),
+        SystemMessage(content="You are CARAble, a content governance assistant."),
         HumanMessage(content=prompt)
     ])
 

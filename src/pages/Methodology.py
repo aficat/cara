@@ -14,8 +14,8 @@ def methodology():
     Regardless of input method, the content undergoes the same processing pipeline:
     
     1. Content is fetched, extracted, or read based on the input type.
-    2. The text content is sent to the CARA pipeline leveraging OpenAI models for analysis.
-    3. CARA returns a detailed JSON response including content quality scores, suggestions, and rewritten content.
+    2. The text content is sent to the CARAble pipeline leveraging OpenAI models for analysis.
+    3. CARAble returns a detailed JSON response including content quality scores, suggestions, and rewritten content.
     4. The app displays:
        - Content scorecards for structure, tone, accessibility, and SEO.
        - Detailed improvement suggestions.
