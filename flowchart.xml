@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-08-13T09:00:00.000Z" agent="5.0 (Windows)" etag="abc123" version="20.1.7" type="device">
+  <diagram id="swimlaneDiagram" name="Page-1">
+    <mxGraphModel dx="956" dy="644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Swimlane for Input Methods -->
+        <mxCell id="swimlane1" value="User Inputs" style="swimlane;startSize=20;horizontal=0;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="280" height="440" as="geometry" />
+        </mxCell>
+
+        <!-- Swimlane for Processing -->
+        <mxCell id="swimlane2" value="CARA Processing Pipeline" style="swimlane;startSize=20;horizontal=0;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="280" y="0" width="280" height="440" as="geometry" />
+        </mxCell>
+
+        <!-- Swimlane for Output -->
+        <mxCell id="swimlane3" value="Output & Display" style="swimlane;startSize=20;horizontal=0;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="560" y="0" width="280" height="440" as="geometry" />
+        </mxCell>
+
+        <!-- Input steps -->
+        <mxCell id="inputUrl" value="Input URL (gov.sg)" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane1">
+          <mxGeometry x="30" y="40" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="inputText" value="Paste Text Draft" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane1">
+          <mxGeometry x="30" y="110" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="inputDoc" value="Upload Word Document (.docx)" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane1">
+          <mxGeometry x="30" y="180" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Processing -->
+        <mxCell id="fetchContent" value="Fetch / Extract Content" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane2">
+          <mxGeometry x="40" y="60" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="callCARA" value="Call CARA Pipeline\n(OpenAI Model)" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane2">
+          <mxGeometry x="40" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Output -->
+        <mxCell id="displayScores" value="Display Content Scores & Suggestions" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane3">
+          <mxGeometry x="40" y="70" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="displayComparison" value="Show Side-by-Side Content Comparison" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane3">
+          <mxGeometry x="40" y="140" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="downloadOptions" value="Download Revised Content (HTML/Word)" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="swimlane3">
+          <mxGeometry x="40" y="210" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Connectors -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="inputUrl" target="fetchContent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="inputText" target="fetchContent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="inputDoc" target="fetchContent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="fetchContent" target="callCARA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="callCARA" target="displayScores">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="callCARA" target="displayComparison">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="callCARA" target="downloadOptions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

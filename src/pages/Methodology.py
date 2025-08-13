@@ -4,29 +4,29 @@ def methodology():
     st.title("Methodology")
     
     st.markdown("""
-    ### Data Flow and Implementation Details
+    ### Data flow and implementation details
     
-    Our application is built around two main use cases:
+    Our application focuses on three input use cases where users provide content via:
+    - **Website URL** (gov.sg pages only)
+    - **Pasted Text** directly into the input box
+    - **Uploading a Word Document** (.docx)
     
-    1. **Chat with Information**  
-    Users interact via a chat interface that uses large language models to understand and improve content drafts.
+    Regardless of input method, the content undergoes the same processing pipeline:
     
-    2. **Intelligent Search**  
-    Enables users to query a curated content playbook for governance best practices and guidelines.
-    
-    ---
-    
-    ### Process Flowcharts
-    
-    #### 1. Chat with Information Flow
+    1. Content is fetched, extracted, or read based on the input type.
+    2. The text content is sent to the CARA pipeline leveraging OpenAI models for analysis.
+    3. CARA returns a detailed JSON response including content quality scores, suggestions, and rewritten content.
+    4. The app displays:
+       - Content scorecards for structure, tone, accessibility, and SEO.
+       - Detailed improvement suggestions.
+       - Side-by-side comparison of original and revised content.
+       - Options to download the improved content as HTML or Word document.
     """)
     
-    # st.image("resources/chat_flowchart.png", caption="Chat with Information Flowchart", use_column_width=True)
-    
-    st.markdown("""
-    #### 2. Intelligent Search Flow
-    """)
-    
+    # Embed or link to the flowchart here
+    st.markdown("#### Flowchart")
+
+    st.markdown("The following flowchart illustrates this data flow and user journey across the input and output stages.")
     # st.image("resources/search_flowchart.png", caption="Intelligent Search Flowchart", use_column_width=True)
 
 if __name__ == "__main__":
