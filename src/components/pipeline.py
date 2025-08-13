@@ -12,7 +12,7 @@ from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 
 # Load API key from Streamlit Secrets
-openai_api_key = st.secrets["OPENAI_API_KEY"]
+openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
 
 # Load API key from .env
 # from dotenv import load_dotenv

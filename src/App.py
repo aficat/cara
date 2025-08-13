@@ -20,9 +20,9 @@ def login():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if username == st.secrets["USER"] and password == st.secrets["PASSWORD"]:
+        if username == st.secrets["auth"]["USER"] and password == st.secrets["auth"]["PASSWORD"]:
             st.session_state["logged_in"] = True
-            st.experimental_rerun()  # Go to main app after login
+            st.rerun()  # Go to main app after login
         else:
             st.error("Invalid username or password")
 
