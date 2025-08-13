@@ -30,9 +30,9 @@ def load_content_playbook():
 
 # Initialize LLM and playbook retriever once
 llm = ChatOpenAI(
-    model_name="gpt-4",
+    model_name="gpt-4o-mini",
     openai_api_key=openai_api_key,
-    temperature=0.3
+    temperature=0.1
 )
 
 MAX_CHARS = 8000  # Rough limit to keep token count under max context length
@@ -50,7 +50,6 @@ def truncate_text(text: str, max_chars=MAX_CHARS) -> str:
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     """Core CARA pipeline to process content using tone, SEO, and WCAG logic."""
 
-    # Truncate input text to avoid token limit errors
     truncated_text = truncate_text(raw_text)
 
     prompt = f"""

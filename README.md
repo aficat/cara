@@ -67,7 +67,7 @@ Or, for Streamlit Cloud deployment, create a .streamlit/secrets.toml file:
 
 ## 🚀 Run the App
 ```bash
-streamlit run main.py
+streamlit run App.py
 ```
 
 ## 🗂️ Project Structure

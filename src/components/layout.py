@@ -13,7 +13,7 @@ def page_header():
             "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Your personal Content Authoring & Review Assistant</h3>",
             unsafe_allow_html=True,
         )
-    st.markdown("---")
+    st.divider()
 
 
 def input_section():
@@ -116,6 +116,7 @@ def fetch_webpage_text(url: str) -> str:
     # Return inner HTML instead of plain text
     return str(main_content)
 
+
 def read_docx(uploaded_file) -> str:
     doc = Document(uploaded_file)
     full_text = [para.text.strip() for para in doc.paragraphs if para.text.strip()]
@@ -124,12 +125,21 @@ def read_docx(uploaded_file) -> str:
 
 def display_content_score_card(result: dict):
     st.markdown("### Content Score Card")
-    cols = st.columns([1, 1, 1, 1], gap="small")
+
     scores = result.get("governance_report", {})
-    labels = ["Structure", "Tone", "Accessibility", "SEO"]
-    for col, label in zip(cols, labels):
-        col.metric(label, scores.get(f"{label.lower()}_score", "N/A"))
-    # Suggestions tabs below revised content
+    # Extract and format scores with '/10'
+    structure_score = scores.get("structure_score", "N/A")
+    tone_score = scores.get("tone_score", "N/A")
+    accessibility_score = scores.get("accessibility_score", "N/A")
+    seo_score = scores.get("seo_score", "N/A")
+
+    # Show as st.metric with formatted value
+    cols = st.columns(4)
+    cols[0].metric("Structure", f"{structure_score}", border=True)
+    cols[1].metric("Tone", f"{tone_score}", border=True)
+    cols[2].metric("Accessibility", f"{accessibility_score}", border=True)
+    cols[3].metric("SEO", f"{seo_score}", border=True)
+
     st.markdown("### Suggestions")
     tabs = st.tabs(["Structure", "Tone", "Accessibility", "SEO"])
 
@@ -148,6 +158,7 @@ def display_content_score_card(result: dict):
                     st.markdown(f"- {item}")
             else:
                 st.write("No suggestions available.")
+
 
 def get_embedded_html_with_style(html_content: str) -> str:
     embedded_css = """
@@ -195,25 +206,24 @@ def get_embedded_html_with_style(html_content: str) -> str:
     </div>
     """
 
+
 def display_content_columns_and_suggestions(result: dict, original_text: str):
     with st.container():
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             st.markdown("### Input Content")
             original_wrapper = get_embedded_html_with_style(original_text)
-            components.html(original_wrapper, height=400, scrolling=True)
+            components.html(original_wrapper, height=400, width=600, scrolling=True)
             # with st.expander("View code"):
             #     st.code(original_text, language="html", height=400)
         with col2:
-            # st.badge("Newly revised", color="violet")
             st.markdown("### Improved Content")
             revised = result.get("revised_content", "")
             revised_wrapper = get_embedded_html_with_style(revised)
-            # revised_html_with_wrapper = f'<div class="embedded-html">{revised}</div>'
-            components.html(revised_wrapper, height=400, scrolling=True)
+            components.html(revised_wrapper, height=400, width=600, scrolling=True)
             # with st.expander("View code"):
             #     st.code(revised, language="html", height=400)
-            
+
             # Download as HTML
             st.download_button(
                 label="Download as HTML",
