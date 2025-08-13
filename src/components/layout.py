@@ -8,9 +8,9 @@ import streamlit.components.v1 as components
 
 def page_header():
     with st.container():
-        st.title("✨ Enable your content with CARAble")
+        st.title("✨ CARAble")
         st.markdown(
-            "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Your personal Content Authoring & Review Assistant</h3>",
+            "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Enable your content with CARA — your Content Authoring & Review Assistant</h3>",
             unsafe_allow_html=True,
         )
     st.divider()
