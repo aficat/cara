@@ -43,6 +43,7 @@ def input_section():
 
         with col2:
             faq_section()
+            disclaimer_section()
 
     return content, run
 
@@ -69,17 +70,20 @@ With CARAble, you can:
 4. Compare your original and optimised drafts to see the changes clearly.
 5. Download or copy your newly improved suggested copy.
 """)
-    with st.expander("Why is content governance important?"):
-        st.markdown("""
-Content governance helps you create clear, consistent, and compliant web pages—fast. It saves you time, ensures a unified tone and brand, makes content accessible to everyone, and reduces risk by meeting standards.
-
-In short, it lets you work smarter while delivering trustworthy, user-friendly content.
-""")
     with st.expander("Is CARAble still being improved?"):
         st.markdown("""
 Yes, CARAble is a work in progress, and we’re committed to making it better over time to help you create clearer, more consistent, and compliant content.
 """)
+        
+def disclaimer_section():
+    st.markdown("### ❗Disclaimer")
+    with st.expander("Important Notice"):
+        st.markdown("""This web application is a prototype developed for educational purposes only. The information provided here is NOT intended for real-world usage and should not be relied upon for making any decisions, especially those related to financial, legal, or healthcare matters.
 
+Furthermore, please be aware that the LLM may generate inaccurate or incorrect information. You assume full responsibility for how you use any generated output.
+
+Always consult with qualified professionals for accurate and personalised advice.
+     """)
 
 def fetch_webpage_text(url: str) -> str:
     headers = {"User-Agent": "Mozilla/5.0"}
