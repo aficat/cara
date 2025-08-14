@@ -38,14 +38,23 @@ llm = ChatOpenAI(
 MAX_CHARS = 8000  # Rough limit to keep token count under max context length
 
 def clean_response(raw_text: str) -> str:
-    """Remove control characters from raw model output (except \n, \t)."""
+    """Remove control characters from raw model output (except \n, \t) and retain the heading types if any."""
     return re.sub(r'[\x00-\x1f\x7f]', '', raw_text)
 
 def truncate_text(text: str, max_chars=MAX_CHARS) -> str:
-    """Truncate text to max_chars, add truncation notice."""
-    if len(text) > max_chars:
-        return text[:max_chars] + "\n\n...[truncated]..."
-    return text
+    """Truncate text to max_chars while preserving line breaks, add truncation notice."""
+    if len(text) <= max_chars:
+        return text
+
+    truncated = ""
+    for line in text.splitlines(True):  # keep line breaks
+        if len(truncated) + len(line) > max_chars:
+            remaining = max_chars - len(truncated)
+            truncated += line[:remaining]
+            break
+        truncated += line
+
+    return truncated + "\n\n...[truncated]..."
 
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     """Core CARAble pipeline to process content using tone, structure, accessibility, and SEO logic."""
@@ -57,6 +66,16 @@ def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
     related_guidelines = vectorstore.similarity_search(truncated_text, k=5)
     guidelines_text = "\n".join([doc.page_content for doc in related_guidelines])
 
+    guidelines = """
+    Accessibility:
+    - Follow WCAG 2.1 guidelines for headings, contrast, navigation, link text, and readability.
+    - Incorporate Lighthouse Accessibility best practices (keyboard navigation, alt text, clear structure).
+
+    SEO:
+    - Follow Google SEO Starter Guide: meaningful headings, meta descriptions, keyword placement.
+    - Lighthouse SEO checks: descriptive link text, mobile readability, font legibility, meta description checks.
+    """
+
     prompt = f"""
 You are CARAble, the Content Authoring & Review Assistant. Use the following **Content Playbook guidelines** to review and rewrite content:
 
@@ -67,10 +86,16 @@ INPUT:
 - Page type: {page_type}
 - Draft content: {truncated_text}
 
+REFERENCES:
+- {guidelines_text} Content Playbook rules from the Content Playbook word document
+- {guidelines}
+
 OBJECTIVES:
 - Produce citizen-facing content that is accessible, well-structured, and search-optimized.
 - Provide paraphrasing based on tone, structure, voice, accessibility, and SEO, while retaining original meaning and content.
-- Inputs and outputs should remain in textual HTML formats with headings, paragraphs, tables, bullets, links, or numbered points.
+- Inputs and outputs should remain in textual HTML formats with headings, paragraphs, hyperlinks, tables, bullets, links, or numbered points.
+- Do not omit any content from the original draft. The output content should not be a summary or condensed version.
+- The word count before and after should be similar, with no significant reduction in content length.
 
 TASKS:
 1. Identify the **intent** and **purpose** of the content.
@@ -88,12 +113,16 @@ TASKS:
    - Alt text recommendations
    - Simplify complex language
    - Contrast, navigation, and keyboard accessibility
+   - Accessibility lighthouse checks
+   - WCAG 2.1 AA compliance from the official WCAG 2.1 guidelines
 5. Apply **SEO best practices**:
    - Keyword-rich headings
    - Meta description clarity
    - Internal linking suggestions
    - Font size legibility
    - Mobile-first readability
+   - Google SEO Starter Guide checks
+   - Google Lighthouse SEO checks
 6. Generate a **Governance Report Card**:
    - Structure, tone, accessibility, and SEO scores
    - Summary of fixes and rewrites with sepecific examples of where it should be changed and what it should be changed to

@@ -68,7 +68,7 @@ With CARAble, you can:
 2. Click **Enable your content with CARAble** to start the review. 
 3. View your content score card and detailed improvement suggestions.
 4. Compare your original and optimised drafts to see the changes clearly.
-5. Download or copy your newly improved suggested copy.
+5. Download your newly improved suggested copy.
 """)
     with st.expander("Is CARAble still being improved?"):
         st.markdown("""
@@ -116,8 +116,6 @@ def fetch_webpage_text(url: str) -> str:
     for selector in social_selectors:
         for elem in main_content.select(selector):
             elem.decompose()
-
-    # Return inner HTML instead of plain text
     return str(main_content)
 
 
@@ -131,13 +129,11 @@ def display_content_score_card(result: dict):
     st.markdown("### Content Score Card")
 
     scores = result.get("governance_report", {})
-    # Extract and format scores with '/10'
     structure_score = scores.get("structure_score", "N/A")
     tone_score = scores.get("tone_score", "N/A")
     accessibility_score = scores.get("accessibility_score", "N/A")
     seo_score = scores.get("seo_score", "N/A")
 
-    # Show as st.metric with formatted value
     cols = st.columns(4)
     cols[0].metric("Structure", f"{structure_score}")
     cols[1].metric("Tone", f"{tone_score}")
@@ -167,41 +163,48 @@ def display_content_score_card(result: dict):
 def get_embedded_html_with_style(html_content: str) -> str:
     embedded_css = """
     <style>
-    body {
-        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-            Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        color: #3D3865;
-        padding: 1rem;
-    }
-    h1, h2, h3 {
-        color: #5B3E96;
-        font-weight: 600;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-    }
-    p {
-        font-size: 1.1rem;
-        line-height: 1.5;
-        margin-bottom: 1em;
-    }
-    a {
-        color: #6B4C9A;
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 1rem;
-    }
-    th, td {
-        border: 1px solid #ccc;
-        padding: 0.5rem;
-        text-align: left;
-    }
-    </style>
+body {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                 Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #3D3865;
+    padding: 1rem;
+}
+
+h1, h2, h3 {
+    color: #5B3E96;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 1em;
+}
+
+a {
+    color: #6B4C9A;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+}
+</style>
+
     """
     return f"""
     {embedded_css}
@@ -218,15 +221,11 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
             st.markdown("### Input Content")
             original_wrapper = get_embedded_html_with_style(original_text)
             components.html(original_wrapper, height=400, width=600, scrolling=True)
-            # with st.expander("View code"):
-            #     st.code(original_text, language="html", height=400)
         with col2:
             st.markdown("### Improved Content")
             revised = result.get("revised_content", "")
             revised_wrapper = get_embedded_html_with_style(revised)
             components.html(revised_wrapper, height=400, width=600, scrolling=True)
-            # with st.expander("View code"):
-            #     st.code(revised, language="html", height=400)
 
             # Download as HTML
             st.download_button(
@@ -236,12 +235,26 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
                 mime="text/html"
             )
 
-            # Download as Word docx
             soup = BeautifulSoup(revised, "html.parser")
-            plain_text = soup.get_text()
-
             doc = docx.Document()
-            doc.add_paragraph(plain_text)
+
+            for elem in soup.recursiveChildGenerator():
+                if elem.name:
+                    if elem.name == "h1":
+                        doc.add_heading(elem.get_text(), level=1)
+                    elif elem.name == "h2":
+                        doc.add_heading(elem.get_text(), level=2)
+                    elif elem.name == "h3":
+                        doc.add_heading(elem.get_text(), level=3)
+                    elif elem.name == "p":
+                        doc.add_paragraph(elem.get_text())
+                    elif elem.name == "ul":
+                        for li in elem.find_all("li"):
+                            doc.add_paragraph(li.get_text(), style="List Bullet")
+                    elif elem.name == "ol":
+                        for li in elem.find_all("li"):
+                            doc.add_paragraph(li.get_text(), style="List Number")
+
             buffer = BytesIO()
             doc.save(buffer)
             buffer.seek(0)

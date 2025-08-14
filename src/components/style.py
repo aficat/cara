@@ -10,13 +10,14 @@ def inject_custom_css():
             margin-left: auto;
             margin-right: auto;
             padding: 1.5rem 2rem;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(98, 71, 156, 0.15);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(128, 90, 213, 0.3);
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                 Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             color: #2C2A4A;
         }
 
@@ -30,7 +31,9 @@ def inject_custom_css():
         }
 
         /* Text readability */
-        .main .block-container p, .main .block-container li, .stTextArea textarea {
+        .main .block-container p, 
+        .main .block-container li, 
+        .stTextArea textarea {
             font-size: 1.125rem;
             line-height: 1.6;
             color: #3D3865;
@@ -39,9 +42,14 @@ def inject_custom_css():
         /* Columns and layout spacing */
         [data-testid="stColumns"] > div {
             padding: 1rem;
-            background: rgba(243, 240, 251, 0.8);
+            background: rgba(243, 240, 251, 0.85);
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(91, 62, 150, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        [data-testid="stColumns"] > div:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(91, 62, 150, 0.12);
         }
 
         /* Buttons */
