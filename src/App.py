@@ -1,3 +1,4 @@
+from components.style import inject_custom_css
 import streamlit as st
 import nltk
 
@@ -13,6 +14,7 @@ nltk.download("punkt")
 nltk.download("averaged_perceptron_tagger")
 
 st.set_page_config(page_title="Enable your content with CARAble", layout="wide")
+inject_custom_css()
 
 def login():
     """Simple login form before showing main app."""

@@ -1,4 +1,7 @@
+from components.style import inject_custom_css
 import streamlit as st
+
+inject_custom_css()
 
 def methodology():
     st.title("Methodology")

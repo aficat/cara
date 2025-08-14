@@ -7,13 +7,14 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import UnstructuredWordDocumentLoader
-from bs4 import BeautifulSoup
 import nltk
+from components.style import inject_custom_css
+
 
 # Load API key from Streamlit Secrets
 openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
 
-# Load API key from .env
+# # Load API key from .env
 # from dotenv import load_dotenv
 # load_dotenv()
 # openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -21,6 +22,7 @@ openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
 nltk.download("punkt")
 nltk.download("averaged_perceptron_tagger")
 
+inject_custom_css()
 
 # -----------------------------
 # Load Content Playbook

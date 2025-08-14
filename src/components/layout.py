@@ -8,7 +8,7 @@ import streamlit.components.v1 as components
 
 def page_header():
     with st.container():
-        st.title("✨ CARAble")
+        st.title("CARAble")
         st.markdown(
             "<p style='margin-top: -10px; margin-bottom: 0.5rem;'>Enable your content with CARA — your Content Authoring & Review Assistant</p>",
             unsafe_allow_html=True,
@@ -21,7 +21,7 @@ def input_section():
         col1, col2 = st.columns([1, 1], gap="large")
 
         with col1:
-            st.markdown("### 📝 Start your content review")
+            st.markdown("### Start your content review")
             input_type = st.radio(
                 "Choose how you'd like to provide your draft",
                 ("Website URL", "Paste your draft directly", "Upload a Word document")
@@ -30,11 +30,11 @@ def input_section():
             if input_type == "Website URL":
                 url = st.text_input("Enter URL (gov.sg sites only)")
                 if url and "gov.sg" not in url.lower():
-                    st.error("Only gov.sg URLs allowed.")
+                    st.error("Only gov.sg URLs are allowed.")
                 elif url:
                     content = fetch_webpage_text(url) or ""
             elif input_type == "Paste your draft directly":
-                content = st.text_area("Paste your draft", height=250)
+                content = st.text_area("Paste your draft", height=100)
             elif input_type == "Upload a Word document":
                 uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
                 if uploaded_file:
@@ -49,7 +49,7 @@ def input_section():
 
 
 def faq_section():
-    st.markdown("### 💬 FAQs")
+    st.markdown("### FAQs")
     with st.expander("Who is CARAble?"):
         st.markdown("""
 CARAble is your helpful content assistant designed to support public officers in creating clear, citizen-friendly web pages — fast and confidently.
@@ -76,7 +76,7 @@ Yes, CARAble is a work in progress, and we’re committed to making it better ov
 """)
         
 def disclaimer_section():
-    st.markdown("### ❗Disclaimer")
+    st.markdown("### Disclaimer")
     with st.expander("Important Notice"):
         st.markdown("""This web application is a prototype developed for educational purposes only. The information provided here is NOT intended for real-world usage and should not be relied upon for making any decisions, especially those related to financial, legal, or healthcare matters.
 
