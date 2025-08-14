@@ -1,58 +1,52 @@
-# 🧠 Ask CARA – Content Authoring & Review Assistant
+# 🧠 CARAble – Content Authoring & Reviewing Assistant
 Designed and developed by **Afiqah Rashid**
 
-**Ask CARA** is your personal content governance assistant designed to help CPF product owners and content authors confidently create and review high-quality citizen-facing content.
-
-CARA takes in a CPF page draft and enhances it by:
-- Recommending the right structure  
-- Rewriting with the correct voice, tone, and hierarchy  
-- Checking accessibility and SEO compliance  
-- Generating a governance report card
+CARAble is an AI-powered assistant that helps content creators and reviewers generate, refine, and structure content efficiently. It provides an intuitive interface for drafting, improving, and validating content.
 
 ---
 
 ## 🛠️ Built with
-- Python 3.8+
-- Streamlit
-- OpenAI API
+- Python 3.8+  
+- Streamlit  
+- OpenAI API  
 
 ---
 
-## ✨ Key Features
-
-- 📄 **Content Input Options**
-  - Paste content manually
-  - Provide a CPF.gov.sg hyperlink
-  - Upload a `.docx` file
-
-- 🧠 **Smart Analysis**
-  - Understands content intent and type
-  - Suggests heading hierarchy based on CPF templates
-
-- 🪄 **Optimised Rewriting**
-  - Rewrites in CPF tone and voice
-  - Improves structure, hierarchy, SEO and accessibility
-
-- 📊 **Governance Report Card**
-  - Summarises issues with structure, tone, readability and more
-
-- 🖥️ **Responsive UI**
-  - Clean layout based on common UX writing assistants
+## 📌 Project Scope
+This project aims to provide users with a comprehensive content review assistant to improve clarity, accessibility, and SEO compliance.
 
 ---
 
-## 🚀 Getting Started
+## 🎯 Objectives
+- Assist public officers in producing accessible and citizen-friendly web content.  
+- Streamline content governance using AI-powered suggestions.  
+- Enhance consistency and user experience across digital content.
 
-```bash
-# Clone the Repository
-git clone https://github.com/aficat/cara.git
-cd cara
-```
+---
+
+## ✨ Features
+- Content input via **URL**, **text**, or **document upload**.  
+- Automated content rewriting with **tone, structure, accessibility, and SEO guidance**.  
+- **Governance report card** with scores.  
+- **Side-by-side comparison** of original and improved content.  
+- **Download options** for revised content (HTML or Word).
+
+---
+
+## 🚀 Data Sources
+- Uses **OpenAI large language models** for advanced content analysis and rewriting.
+- Relies on the **Content playbook** document for governance and style rules.
+- Follows **accessibility standards** based on the [WCAG 2.1 guidelines](https://www.w3.org/WAI/WCAG21/) and incorporates audits inspired by [Lighthouse Accessibility Scoring](https://developer.chrome.com/docs/lighthouse/accessibility/scoring).
+- Implements **SEO best practices** guided by Google's [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), along with audits for descriptive link text, meta descriptions, and font size legibility using [Lighthouse SEO audits](https://developer.chrome.com/docs/lighthouse/seo/link-text), [meta description checks](https://developer.chrome.com/docs/lighthouse/seo/meta-description), and [font size guidelines](https://developer.chrome.com/docs/lighthouse/seo/font-size).
+
+---
 
 ## 📦 Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
+
+---
 
 ## 🔐 Set Up API Key
 ```bash
@@ -65,21 +59,35 @@ Or, for Streamlit Cloud deployment, create a .streamlit/secrets.toml file:
 # OPENAI_API_KEY = "your_openai_key_here"
 ```
 
+---
+
 ## 🚀 Run the App
 ```bash
-streamlit run App.py
+streamlit run src/App.py
 ```
+
+---
 
 ## 🗂️ Project Structure
 
 ```bash
-ask-cara/
-├── components/
-│   ├── layout.py          # UI layout components
-│   ├── pipeline.py        # Core content transformation logic
-│   └── style.py           # CSS injection
-├── main.py                # Main Streamlit app
-├── requirements.txt       # Dependency list
-├── .env                   # (Optional) Local API key
-└── README.md              # Project documentation
+cara/
+├── src/
+│   ├── components/
+│   │   ├── layout.py          # UI layout components
+│   │   ├── pipeline.py        # Core content transformation logic
+│   │   └── style.py           # CSS injection
+│   ├── documentation/
+│   │   ├── CARA Flowchart.png
+│   │   └── flowchart.xml
+│   ├── pages/
+│   │   ├── About Us.py
+│   │   └── Methodology.py
+│   ├── resources/
+│   │   └── contentplaybook.docx
+│   └── App.py                 # Main Streamlit app
+├── requirements.txt           # Dependency list
+├── .env                       # (Self setup) Local API key
+├── .gitignore                 # (Self setup) 
+└── README.md                  # Project documentation
 ```
