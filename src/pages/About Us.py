@@ -27,6 +27,11 @@ def about_us():
     - Governance report card with scores.
     - Side-by-side comparison of original and improved content.
     - Download options for revised content.
+                
+    ### Sample data inputs
+    - Webpage URL: https://www.cpf.gov.sg/member/healthcare-financing/about-health-insurance-planner
+    - Paste draft text directly: [Draft text](src/resources/Draft text.md)
+    - Word document upload: [Word document sample](src/resources/Word document sample.docx)
 
     ### Learn more about Accessibility
     Visit [web.dev's accessibility learning resources](https://web.dev/learn/accessibility) to deepen your understanding of accessibility principles.

@@ -84,6 +84,7 @@ cara/
 │   │   ├── About Us.py
 │   │   └── Methodology.py
 │   ├── resources/
+│   │   ├── Word document sample.docx
 │   │   └── contentplaybook.docx
 │   └── App.py                 # Main Streamlit app
 ├── requirements.txt           # Dependency list
