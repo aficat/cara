@@ -9,24 +9,24 @@ from components.pipeline import ask_cara_pipeline
 
 st.set_page_config(page_title="Enable your content with CARAble", layout="wide")
 
-def login():
-    """Simple login form before showing main app."""
-    # If already logged in, don't show login again
-    if st.session_state.get("logged_in"):
-        return True
+# def login():
+#     """Simple login form before showing main app."""
+#     # If already logged in, don't show login again
+#     if st.session_state.get("logged_in"):
+#         return True
 
-    st.title("🔒 Login to use CARAble")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+#     st.title("🔒 Login to use CARAble")
+#     username = st.text_input("Username")
+#     password = st.text_input("Password", type="password")
 
-    if st.button("Login"):
-        if username == st.secrets["auth"]["USER"] and password == st.secrets["auth"]["PASSWORD"]:
-            st.session_state["logged_in"] = True
-            st.rerun()  # Go to main app after login
-        else:
-            st.error("Invalid username or password")
+#     if st.button("Login"):
+#         if username == st.secrets["auth"]["USER"] and password == st.secrets["auth"]["PASSWORD"]:
+#             st.session_state["logged_in"] = True
+#             st.rerun()  # Go to main app after login
+#         else:
+#             st.error("Invalid username or password")
 
-    return False
+#     return False
 
 
 def main():
@@ -58,5 +58,5 @@ def main():
 
 
 if __name__ == "__main__":
-    if login():  # Only run main if logged in
+    # if login():  # Only run main if logged in
         main()

@@ -27,7 +27,7 @@ def methodology():
     st.markdown("#### Flowchart")
 
     st.markdown("The following flowchart illustrates this data flow and user journey across the input and output stages.")
-    # st.image("resources/search_flowchart.png", caption="Intelligent Search Flowchart", use_column_width=True)
+    st.image("src/documentation/CARA Flowchart.png", caption="Flowchart", use_column_width=True)
 
 if __name__ == "__main__":
     methodology()
