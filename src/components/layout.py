@@ -139,10 +139,10 @@ def display_content_score_card(result: dict):
 
     # Show as st.metric with formatted value
     cols = st.columns(4)
-    cols[0].metric("Structure", f"{structure_score}", border=True)
-    cols[1].metric("Tone", f"{tone_score}", border=True)
-    cols[2].metric("Accessibility", f"{accessibility_score}", border=True)
-    cols[3].metric("SEO", f"{seo_score}", border=True)
+    cols[0].metric("Structure", f"{structure_score}")
+    cols[1].metric("Tone", f"{tone_score}")
+    cols[2].metric("Accessibility", f"{accessibility_score}")
+    cols[3].metric("SEO", f"{seo_score}")
 
     st.markdown("### Suggestions")
     tabs = st.tabs(["Structure", "Tone", "Accessibility", "SEO"])

@@ -1,4 +1,6 @@
 import streamlit as st
+import nltk
+
 from components.layout import (
     page_header,
     input_section,
@@ -6,6 +8,9 @@ from components.layout import (
     display_content_columns_and_suggestions,
 )
 from components.pipeline import ask_cara_pipeline
+
+nltk.download("punkt")
+nltk.download("averaged_perceptron_tagger")
 
 st.set_page_config(page_title="Enable your content with CARAble", layout="wide")
 

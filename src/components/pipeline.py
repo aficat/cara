@@ -4,12 +4,10 @@ import re
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-
-# For PDF loading and vector search
-from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain.document_loaders import UnstructuredWordDocumentLoader
+import nltk
 
 # Load API key from Streamlit Secrets
 openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
@@ -19,10 +17,12 @@ openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
 # load_dotenv()
 # openai_api_key = os.getenv("OPENAI_API_KEY")
 
+nltk.download("punkt")
+nltk.download("averaged_perceptron_tagger")
+
 # Cache loading of content playbook
-@st.cache_resource(show_spinner=False)
 def load_content_playbook():
-    loader = PyPDFLoader("src/resources/contentplaybook.pdf") 
+    loader = UnstructuredWordDocumentLoader("src/resources/contentplaybook.docx")
     docs = loader.load()
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     vectorstore = FAISS.from_documents(docs, embeddings)
@@ -48,58 +48,61 @@ def truncate_text(text: str, max_chars=MAX_CHARS) -> str:
     return text
 
 def ask_cara_pipeline(raw_text: str, page_type: str) -> dict:
-    """Core CARAble pipeline to process content using tone, SEO, and WCAG logic."""
+    """Core CARAble pipeline to process content using tone, structure, accessibility, and SEO logic."""
 
     truncated_text = truncate_text(raw_text)
+    vectorstore = load_content_playbook()
+
+    # Retrieve relevant guidelines from content playbook
+    related_guidelines = vectorstore.similarity_search(truncated_text, k=5)
+    guidelines_text = "\n".join([doc.page_content for doc in related_guidelines])
 
     prompt = f"""
-You are CARAble, the Content Authoring & Review Assistant developed for public content. Your job is to help authors rewrite and improve pages to meet content governance playbook and global accessibility (WCAG 2.1) and SEO standards.
+You are CARAble, the Content Authoring & Review Assistant. Use the following **Content Playbook guidelines** to review and rewrite content:
+
+Content Playbook Guidelines:
+{guidelines_text}
 
 INPUT:
 - Page type: {page_type}
 - Draft content: {truncated_text}
 
 OBJECTIVES:
-- Produce citizen-facing content that is accessible, well-structured, and search-optimised
-- Provide paraphrasing based on content tone, structure, and information hierarchy
-- Inputs and outputs should be in textual HTML formats in headings, paragraphs, tables, bulleted, hyperlinks or numbered points.
+- Produce citizen-facing content that is accessible, well-structured, and search-optimized.
+- Provide paraphrasing based on tone, structure, voice, accessibility, and SEO, while retaining original meaning and content.
+- Inputs and outputs should remain in textual HTML formats with headings, paragraphs, tables, bullets, links, or numbered points.
 
 TASKS:
-1. Identify the **intent** and **purpose** of the content
-2. Recommend an ideal content structure
+1. Identify the **intent** and **purpose** of the content.
+2. Recommend an ideal content structure with headings e.g. H3: <content>. Typically, article and scheme pages starts their title with H2 and the subheaders are H3. 
 3. Rephrase the draft with:
-   - Clear, helpful, professional tone of voice
-   - Logical heading levels (H1, H2, bullet points)
+   - Clear, helpful, professional tone aligned to the Content Playbook word document
+   - Consistent voice aligned to the Content Playbook word document
+   - Check against all sections and topics within the Content Playbook word document
+   - Logical heading levels, bullet points or numbered lists
    - Improved readability, scannability, and service clarity
    - Ensure none of the draft is omitted
-   - Retain the paragraph structure of the original draft
-
 4. Apply **WCAG 2.1 accessibility** checks:
-   - Improve heading hierarchy and reading order
-   - Flag or fix unclear or generic link text (e.g. "click here")
-   - Recommend descriptive alt text for any referenced images
+   - Heading hierarchy
+   - Descriptive link text
+   - Alt text recommendations
    - Simplify complex language
-   - Ensure good contrast, consistent navigation, and keyboard-friendly formatting (if relevant)
-
+   - Contrast, navigation, and keyboard accessibility
 5. Apply **SEO best practices**:
-   - Use meaningful, keyword-rich headings
-   - Highlight key terms near the top
-   - Suggest internal linking to relevant pages (if applicable)
-   - Remove redundant phrasing and improve meta clarity
-   - Prioritise mobile-first readability (short paragraphs, clear CTA)
-
+   - Keyword-rich headings
+   - Meta description clarity
+   - Internal linking suggestions
+   - Font size legibility
+   - Mobile-first readability
 6. Generate a **Governance Report Card**:
    - Structure, tone, accessibility, and SEO scores
-   - Summary of fixes and rewrites
+   - Summary of fixes and rewrites with sepecific examples of where it should be changed and what it should be changed to
    - Before/after comparison of major improvements
 
 OUTPUT FORMAT:
-- Return only valid **JSON** (no extra text, no comments). 
-- All values must be strings or string arrays. 
-- Escape special characters properly.
-- Content score card results will always be scored out of 10 points and display in the format of score/10.
-- Ensure none of the content is omitted.
-- Remove elements such as "script", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"
+- Return only valid **JSON** with string or string-array values. No extra text or commentary.
+- Content score card values out of 10, format: score/10.
+- Remove elements: "script", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"
 
 Format:
 {{
@@ -108,6 +111,7 @@ Format:
   "revised_content": "...",
   "accessibility_fixes": ["..."],
   "seo_fixes": ["..."],
+  "tone_fixes": ["..."],
   "governance_report": {{
     "structure_score": "...",
     "tone_score": "...",
@@ -119,7 +123,7 @@ Format:
 """
 
     response = llm([
-        SystemMessage(content="You are CARAble, a content governance assistant."),
+        SystemMessage(content="You are CARAble, a Content Authoring & Review Assistant that overlooks content quality and governance."),
         HumanMessage(content=prompt)
     ])
 

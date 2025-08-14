@@ -8,7 +8,7 @@ def methodology():
     
     Our application focuses on three input use cases where users provide content via:
     - **Website URL** (gov.sg pages only)
-    - **Pasted Text** directly into the input box
+    - **Pasted text** directly into the input box
     - **Uploading a Word Document** (.docx)
     
     Regardless of input method, the content undergoes the same processing pipeline:
@@ -27,7 +27,7 @@ def methodology():
     st.markdown("#### Flowchart")
 
     st.markdown("The following flowchart illustrates this data flow and user journey across the input and output stages.")
-    st.image("src/documentation/CARA Flowchart.png", caption="Flowchart", use_column_width=True)
+    st.image("src/documentation/CARA Flowchart.png", caption="Flowchart")
 
 if __name__ == "__main__":
     methodology()

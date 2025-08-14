@@ -14,7 +14,7 @@ def about_us():
 
     ### Data Sources
     - Uses **OpenAI large language models** for advanced content analysis and rewriting.
-    - Relies on the **Content playbook** PDF documents for governance and style rules.
+    - Relies on the **Content playbook** document for governance and style rules.
     - Follows **accessibility standards** based on the [WCAG 2.1 guidelines](https://www.w3.org/WAI/WCAG21/) and incorporates audits inspired by [Lighthouse Accessibility Scoring](https://developer.chrome.com/docs/lighthouse/accessibility/scoring).
     - Implements **SEO best practices** guided by Google's [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), along with audits for descriptive link text, meta descriptions, and font size legibility using [Lighthouse SEO audits](https://developer.chrome.com/docs/lighthouse/seo/link-text), [meta description checks](https://developer.chrome.com/docs/lighthouse/seo/meta-description), and [font size guidelines](https://developer.chrome.com/docs/lighthouse/seo/font-size).
 
