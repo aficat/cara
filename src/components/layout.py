@@ -10,7 +10,7 @@ def page_header():
     with st.container():
         st.title("✨ CARAble")
         st.markdown(
-            "<h3 style='margin-top: -10px; margin-bottom: 0.5rem; color: #5B3E96;'>Enable your content with CARA — your Content Authoring & Review Assistant</h3>",
+            "<p style='margin-top: -10px; margin-bottom: 0.5rem;'>Enable your content with CARA — your Content Authoring & Review Assistant</p>",
             unsafe_allow_html=True,
         )
     st.divider()
@@ -42,8 +42,8 @@ def input_section():
             run = st.button("Enable your content with CARAble", use_container_width=True)
 
         with col2:
-            faq_section()
             disclaimer_section()
+            faq_section()
 
     return content, run
 

@@ -43,7 +43,7 @@ def main():
     # Only show results after user clicks "Enable your content with CARAble"
     if run:
         if not content.strip():
-            st.warning("Please provide content to process.")
+            st.warning("Please provide content to be processed by CARAble.")
             return
         
         st.divider()
