@@ -14,7 +14,7 @@ from components.style import inject_custom_css
 # Load API key from Streamlit Secrets
 openai_api_key = st.secrets["api"]["OPENAI_API_KEY"]
 
-# # Load API key from .env
+# Load API key from .env
 # from dotenv import load_dotenv
 # load_dotenv()
 # openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -126,7 +126,6 @@ OBJECTIVES:
 - Apply tone, structure, accessibility (WCAG 2.1), and SEO improvements
 - Check against the CONTENT PLAYBOOK and GUIDELINES LINKS as well
 
-
 TASKS:
 1. Recommend an ideal content structure with headings e.g. H3: <content>. Typically, article and scheme pages starts their title with H2 and the subheaders are H3. 
 2. Rephrase the draft with:
@@ -161,6 +160,8 @@ OUTPUT FORMAT:
 - Content score card values out of 10, format: score/10.
 - Remove elements: "script", "nav", "footer", "header", "noscript", "form", "img", "button", "input", "select"
 - Return only valid **JSON** with string or string-array values. No extra text or commentary.
+- Inputs and outputs should remain in textual HTML formats with headings, paragraphs, hyperlinks, tables, bullets, links, or numbered points. No markdown format.
+- Highlight any changes made to the original content in the output.
 
 Format:
 {{

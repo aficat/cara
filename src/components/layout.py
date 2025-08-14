@@ -5,16 +5,16 @@ import requests
 import docx
 from io import BytesIO
 import streamlit.components.v1 as components
+from streamlit_lexical import streamlit_lexical
 
 def page_header():
     with st.container():
         st.title("CARAble")
         st.markdown(
-            "<p style='margin-top: -10px; margin-bottom: 0.5rem;'>Enable your content with CARA — your Content Authoring & Review Assistant</p>",
+            "<p style='margin-top: -10px; margin-bottom: 0.5rem;'>Enable your content with CARA — your Content Authoring & Review Assistant for better content governance</p>",
             unsafe_allow_html=True,
         )
     st.divider()
-
 
 def input_section():
     with st.container():
@@ -34,7 +34,13 @@ def input_section():
                 elif url:
                     content = fetch_webpage_text(url) or ""
             elif input_type == "Paste your draft directly":
-                content = st.text_area("Paste your draft", height=100)
+                content = streamlit_lexical(value="Paste your draft",
+                             placeholder="Paste your draft", 
+                             height=200,
+                             debounce=500,
+                             key='1234', 
+                             on_change=None
+                            )
             elif input_type == "Upload a Word document":
                 uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
                 if uploaded_file:
