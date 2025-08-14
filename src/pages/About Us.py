@@ -30,8 +30,8 @@ def about_us():
                 
     ### Sample data inputs
     - Webpage URL: https://www.cpf.gov.sg/member/healthcare-financing/about-health-insurance-planner
-    - Paste draft text directly: [Draft text](src/resources/Draft text.md)
-    - Word document upload: [Word document sample](src/resources/Word document sample.docx)
+    - Paste draft text directly: Draft text.md under resources folder
+    - Word document upload: Word document sample.docx under resources folder
 
     ### Learn more about Accessibility
     Visit [web.dev's accessibility learning resources](https://web.dev/learn/accessibility) to deepen your understanding of accessibility principles.
