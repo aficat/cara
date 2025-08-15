@@ -102,6 +102,9 @@ def inject_custom_css():
         .st-av {
             background-color: #6A0DAD !important; 
         }
+        .st-cr{
+            background-color: #E0D0FF !important; 
+        }
         
         /* Hyperlinks */
         a {
