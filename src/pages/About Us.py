@@ -27,12 +27,7 @@ def about_us():
     - Governance report card with scores.
     - Side-by-side comparison of original and improved content.
     - Download options for revised content.
-    """)
 
-    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 1")
-    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 2")
-
-    st.markdown("""
     ### Sample data inputs
     - Webpage URL: https://www.cpf.gov.sg/member/healthcare-financing/about-health-insurance-planner
     - Paste draft text directly: Draft text.md under samples folder
@@ -45,6 +40,9 @@ def about_us():
     ### Learn more about Accessibility
     Visit [web.dev's accessibility learning resources](https://web.dev/learn/accessibility) to deepen your understanding of accessibility principles.
     """)
+
+    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 1")
+    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 2")
 
 if __name__ == "__main__":
     about_us()
