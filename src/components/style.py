@@ -4,7 +4,7 @@ def inject_custom_css():
     st.markdown(
         """
         <style>
-        /* Container: max width and center alignment */
+        /* Container */
         .main .block-container {
             max-width: 1100px;
             margin-left: auto;
@@ -56,7 +56,6 @@ def inject_custom_css():
         .stButton > button {
             background-color: #E0D0FF !important; /* light purple background */
             color: #4B0082 !important;            
-            border: 2px solid #6A0DAD !important;
             font-weight: 600 !important;
             border-radius: 8px !important;
             padding: 0.6em 1.2em !important;
@@ -65,7 +64,6 @@ def inject_custom_css():
         .stButton > button:hover {
             background-color: #D0B3FF !important;
             color: white !important;
-            border-color: #6A0DAD !important;
         }
         .stButton > button:focus-visible {
             outline: 3px solid #6A0DAD !important;

@@ -17,8 +17,6 @@ st.set_page_config(page_title="Enable your content with CARAble", layout="wide")
 inject_custom_css()
 
 def login():
-    """Simple login form before showing main app."""
-    # If already logged in, don't show login again
     if st.session_state.get("logged_in"):
         return True
 
@@ -35,11 +33,9 @@ def login():
 
     return False
 
-
 def main():
     page_header()
 
-    # Input section with 2 columns: left input + right FAQ
     content, run = input_section()
 
     # Only show results after user clicks "Enable your content with CARAble"
@@ -52,17 +48,12 @@ def main():
         with st.spinner("CARAble is enabling your content..."):
             result = ask_cara_pipeline(content, "")
 
-        # Content Score Card
+        # Render the results
         display_content_score_card(result)
-
         st.divider()
-
-        # Input content on left, revised + suggestions on right
         display_content_columns_and_suggestions(result, content)
     else:
         st.divider()
-        # FAQ handled in input_section already
-
 
 if __name__ == "__main__":
     if login():  # Only run main if logged in

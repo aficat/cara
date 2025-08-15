@@ -84,11 +84,13 @@ cara/
 │   │   ├── About Us.py
 │   │   └── Methodology.py
 │   ├── resources/
-│   │   ├── Word document sample.docx
-│   │   └── contentplaybook.docx
+│   │   ├── contentplaybook.docx
+│   │   ├── Draft text.md
+│   │   └── Word document sample.docx
 │   └── App.py                 # Main Streamlit app
 ├── requirements.txt           # Dependency list
 ├── .env                       # (Self setup) Local API key
+├── venv                       # (Self setup) Local virtual environment
 ├── .gitignore                 # (Self setup) 
 └── README.md                  # Project documentation
 ```

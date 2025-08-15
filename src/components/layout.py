@@ -27,13 +27,7 @@ def input_section():
                 ("Website URL", "Paste your draft directly", "Upload a Word document")
             )
             content = ""
-            if input_type == "Website URL":
-                url = st.text_input("Enter URL (gov.sg sites only)")
-                if url and "gov.sg" not in url.lower():
-                    st.error("Only gov.sg URLs are allowed.")
-                elif url:
-                    content = fetch_webpage_text(url) or ""
-            elif input_type == "Paste your draft directly":
+            if input_type == "Paste your draft directly":
                 content = streamlit_lexical(value="Paste your draft",
                              placeholder="Paste your draft", 
                              height=200,
@@ -41,6 +35,12 @@ def input_section():
                              key='1234', 
                              on_change=None
                             )
+            elif input_type == "Website URL":
+                url = st.text_input("Enter URL (gov.sg sites only)")
+                if url and "gov.sg" not in url.lower():
+                    st.error("Only gov.sg URLs are allowed.")
+                elif url:
+                    content = fetch_webpage_text(url) or ""
             elif input_type == "Upload a Word document":
                 uploaded_file = st.file_uploader("Upload .docx file", type=["docx"])
                 if uploaded_file:
@@ -52,7 +52,6 @@ def input_section():
             faq_section()
 
     return content, run
-
 
 def faq_section():
     st.markdown("### FAQs")
@@ -219,7 +218,6 @@ th, td {
     </div>
     """
 
-
 def display_content_columns_and_suggestions(result: dict, original_text: str):
     with st.container():
         col1, col2 = st.columns([1, 1], gap="medium")
@@ -265,6 +263,7 @@ def display_content_columns_and_suggestions(result: dict, original_text: str):
             doc.save(buffer)
             buffer.seek(0)
 
+            # Download as Word document
             st.download_button(
                 label="Download as Word",
                 data=buffer,
