@@ -24,11 +24,11 @@ def input_section():
             st.markdown("### Start your content review")
             input_type = st.radio(
                 "Choose how you'd like to provide your draft",
-                ("Website URL", "Paste your draft directly", "Upload a Word document")
+                ("Paste your draft directly", "Website URL", "Upload a Word document")
             )
             content = ""
             if input_type == "Paste your draft directly":
-                content = streamlit_lexical(value="Paste your draft",
+                content = streamlit_lexical(value="",
                              placeholder="Paste your draft", 
                              height=200,
                              debounce=500,
