@@ -84,7 +84,12 @@ cara/
 │   │   ├── About Us.py
 │   │   └── Methodology.py
 │   ├── resources/
-│   │   ├── contentplaybook.docx
+│   │   └── contentplaybook.docx
+│   ├── samples/
+│   │   ├── CARAble Content Revision.docx
+│   │   ├── CARAble Content Revision.html
+│   │   ├── Carable screenshot 1.png
+│   │   ├── Carable screenshot 2.png
 │   │   ├── Draft text.md
 │   │   └── Word document sample.docx
 │   └── App.py                 # Main Streamlit app

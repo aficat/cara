@@ -27,11 +27,17 @@ def about_us():
     - Governance report card with scores.
     - Side-by-side comparison of original and improved content.
     - Download options for revised content.
-                
+    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 1")
+    st.image("src/samples/Carable screenshot 1.png", caption="Screenshot of CARAble interface 2")
+
     ### Sample data inputs
     - Webpage URL: https://www.cpf.gov.sg/member/healthcare-financing/about-health-insurance-planner
-    - Paste draft text directly: Draft text.md under resources folder
-    - Word document upload: Word document sample.docx under resources folder
+    - Paste draft text directly: Draft text.md under samples folder
+    - Word document upload: Word document sample.docx under samples folder
+                
+    ### Sample data outputs
+    - Word document: CARAble Content Revision.docx under samples folder
+    - HTML file: CARAble Content Revision.html under samples folder
 
     ### Learn more about Accessibility
     Visit [web.dev's accessibility learning resources](https://web.dev/learn/accessibility) to deepen your understanding of accessibility principles.
