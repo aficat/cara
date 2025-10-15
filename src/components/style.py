@@ -164,12 +164,13 @@ def inject_custom_css():
             border-color: var(--primary-color) !important;
         }
         
-        /* Metrics and status indicators */
+        /* Metrics and status indicators (avoid repainting app chrome) */
+        /* Remove background paints that darken main app */
         .st-av {
-            background-color: var(--primary-color) !important; 
+            background-color: transparent !important;
         }
         .st-cr {
-            background-color: var(--background-accent) !important; 
+            background-color: transparent !important;
         }
         
         /* Hyperlinks with proper contrast and focus states (scoped) */
