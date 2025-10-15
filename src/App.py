@@ -58,5 +58,5 @@ def main():
         display_content_columns_and_suggestions(result, content)
 
 if __name__ == "__main__":
-    # if login():  # Only run main if logged in
+    if login():  # Only run main if logged in
         main()
