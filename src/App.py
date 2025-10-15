@@ -7,6 +7,7 @@ from components.layout import (
     input_section,
     display_content_score_card,
     display_content_columns_and_suggestions,
+    add_sidebar_copyright,
 )
 from components.pipeline import ask_cara_pipeline
 
@@ -35,6 +36,9 @@ def login():
 
 def main():
     page_header()
+    
+    # Add sidebar copyright at the bottom left
+    add_sidebar_copyright()
 
     content, run = input_section()
 
@@ -52,9 +56,7 @@ def main():
         display_content_score_card(result)
         st.divider()
         display_content_columns_and_suggestions(result, content)
-    else:
-        st.divider()
 
 if __name__ == "__main__":
-    if login():  # Only run main if logged in
+    # if login():  # Only run main if logged in
         main()

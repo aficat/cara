@@ -1,10 +1,14 @@
 from components.style import inject_custom_css
+from components.layout import add_sidebar_copyright
 import streamlit as st
 
 inject_custom_css()
 
 def methodology():
     st.title("Methodology")
+    
+    # Add sidebar copyright at the bottom left
+    add_sidebar_copyright()
     
     st.markdown("""
     ### Data flow and implementation details

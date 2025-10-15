@@ -98,6 +98,7 @@ tiktoken==0.9.0
 toml==0.10.2
 tornado==6.5.1
 tqdm==4.67.1
+textstat==0.7.3
 types-requests==2.32.4.20250611
 typing-inspect==0.9.0
 typing-inspection==0.4.1
