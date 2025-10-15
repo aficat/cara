@@ -40,8 +40,8 @@ def inject_custom_css():
             color: var(--text-primary);
         }
 
-        /* Headers with proper hierarchy and contrast */
-        h1 {
+        /* Headers with proper hierarchy and contrast (scoped to main content) */
+        .main .block-container h1 {
             font-weight: 700;
             color: var(--text-primary);
             font-size: 2.5rem;
@@ -51,7 +51,7 @@ def inject_custom_css():
             line-height: 1.2;
         }
 
-        h2 {
+        .main .block-container h2 {
             font-weight: 600;
             color: var(--primary-color);
             font-size: 2rem;
@@ -61,7 +61,7 @@ def inject_custom_css():
             line-height: 1.3;
         }
 
-        h3 {
+        .main .block-container h3 {
             font-weight: 600;
             color: var(--text-primary);
             font-size: 1.5rem;
@@ -70,7 +70,7 @@ def inject_custom_css():
             line-height: 1.4;
         }
 
-        h4 {
+        .main .block-container h4 {
             font-weight: 600;
             color: var(--text-secondary);
             font-size: 1.25rem;
@@ -91,7 +91,8 @@ def inject_custom_css():
         /* Columns and layout spacing */
         [data-testid="stColumns"] > div {
             padding: 1.5rem;
-            background: var(--background-secondary);
+            /* avoid painting theme backgrounds */
+            background: transparent;
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
@@ -171,8 +172,8 @@ def inject_custom_css():
             background-color: var(--background-accent) !important; 
         }
         
-        /* Hyperlinks with proper contrast and focus states */
-        a {
+        /* Hyperlinks with proper contrast and focus states (scoped) */
+        .main .block-container a {
             color: var(--primary-color);
             text-decoration: underline;
             text-decoration-thickness: 2px;
@@ -180,30 +181,11 @@ def inject_custom_css():
             font-weight: 500;
             transition: all 0.2s ease;
         }
-        a:hover { 
+        .main .block-container a:hover { 
             color: var(--primary-hover);
             text-decoration-thickness: 3px;
         }
-        a:focus-visible {
-            outline: 3px solid var(--primary-light);
-            outline-offset: 2px;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-        
-        /* Consistent link styling across components */
-        .st-emotion-cache-r44huj a {
-            color: var(--primary-color);
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 2px;
-            font-weight: 500;
-        }
-        .st-emotion-cache-r44huj a:hover { 
-            color: var(--primary-hover);
-            text-decoration-thickness: 3px;
-        }
-        .st-emotion-cache-r44huj a:focus-visible {
+        .main .block-container a:focus-visible {
             outline: 3px solid var(--primary-light);
             outline-offset: 2px;
             border-radius: 4px;
